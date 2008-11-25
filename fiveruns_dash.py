@@ -1,6 +1,5 @@
 from __future__ import with_statement
-import time
-import sys, os, zlib
+import time, signal, sys, os, zlib
 import aspects
 from types import *
 import httplib, mimetypes, simplejson, urlparse
@@ -13,9 +12,12 @@ def start(config):
   reporter.start()
   return reporter
   
+def configure(*args, **kwargs):
+  return Configuration(*args, **kwargs)
+  
 class Configuration(object):
   
-  def __init__(self):
+  def __init__(self, **options):
     self.metrics = {}
     self.app_token = None
     # TODO: Extract these into a Session object
@@ -23,7 +25,9 @@ class Configuration(object):
     self.pid = os.getpid()
     self.pwd = os.getcwd()
     self.process_id = None
-    self.report_interval = 10
+    self.report_interval = 60
+    for k, v in options.iteritems():
+      self.__dict__[k] = v
   
   def time(self, name, description, **options):
     "Add a time metric"
@@ -202,7 +206,7 @@ class Reporter(Thread):
     self.reported_info = False
     Thread.__init__(self)
     
-  def stop(self):
+  def stop(self, *args, **kwargs):
     log("Shutting down...")
     self.stop_requested = True
   
@@ -214,8 +218,8 @@ class Reporter(Thread):
       if self.stop_requested: break 
       if self._is_ready():
         self._report_data()
-    log("Shut down.")
-      
+    log("Shut down")
+          
   def _is_ready(self):
     return time.time() - self.last_report > self.interval
     
@@ -254,7 +258,7 @@ class Metric(object):
     
   def values(self):
     return self._snapshot()
-  
+    
   def metadata(self):
     result = {}
     for field in ['name', 'unit', 'description', 'recipe_name', 'recipe_url']:
@@ -285,12 +289,18 @@ class Metric(object):
     """
     Call custom function and merge its result into containers
     """
-    result = func()
+    receiver = func
+    args = []
+    if isinstance(receiver, tuple):
+      receiver = func[0]
+      args = func[1:]
+    result = receiver(*args)
     with self.lock:
       if isinstance(result, dict):
         self.containers.update(result)
-      else:      
-        container = _container_for_context(None)
+      else:
+        # TODO: Support context_finder & pre-defined contexts
+        container = self._container_for_context(None)
         container["value"] = result
       
   def _snapshot(self):
@@ -353,19 +363,40 @@ class TimeMetric(Metric):
   def _data_type(self): return 'time'
     
 class AbsoluteMetric(Metric):
+  
+  def _validate(self):
+    if not (self.options.has_key('call')):
+      raise MetricError("Required `call'")
+
+  def values(self):
+    self._record(self.options['call'])
+    return self._snapshot()
+  
   def _data_type(self): return 'absolute'
     
 class PercentageMetric(Metric):
+  
+  def _validate(self):
+    if not (self.options.has_key('call')):
+      raise MetricError("Required `call'")
+
+  def values(self):
+    self._record(self.options['call'])
+    return self._snapshot()
+  
   def _data_type(self): return 'percentage'
 
 def post_multipart(host, selector, fields, files):
     content_type, body = encode_multipart_formdata(fields, files)
     h = httplib.HTTPConnection(host)
     headers = {'User-Agent': 'Python','Content-Type': content_type}
-    h.request('POST', selector, body, headers)
+    try:
+      h.request('POST', selector, body, headers)
+    except:
+      return [False, sys.exc_info()[1], None]      
     res = h.getresponse()
     return res.status, res.reason, res.read()
-
+    
 def encode_multipart_formdata(fields, files):
     """
     fields is a sequence of (name, value) elements for regular form fields.
@@ -396,5 +427,5 @@ def get_content_type(filename):
     return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
     
 def log(text):
-  print "[FiveRuns Dash] %s" % text
+  print "[FiveRuns Dash] %s" % text  
 

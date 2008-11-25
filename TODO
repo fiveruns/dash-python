@@ -1,0 +1,9 @@
+* Refactor, split into package structure
+* Use generators & properties to clean up code
+* First-class recipe definition & registration
+* Python Egg configuration
+* More environment data
+* Extraction of a 'Session' class to handle environment, the
+  reporter, etc.
+* Better (controlled) logging
+* Documentation (pydoc?)
