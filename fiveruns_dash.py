@@ -7,11 +7,6 @@ import httplib, mimetypes, simplejson, urlparse
 from threading import Thread, RLock
 from StringIO import StringIO
 
-import socket
-import fcntl
-import struct
-import array
-
 def start(config):
   config.instrument()
   reporter = Reporter(config)
