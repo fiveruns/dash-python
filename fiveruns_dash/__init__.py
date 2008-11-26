@@ -11,3 +11,5 @@ def start(config):
   
 def configure(*args, **kwargs):
   return Configuration(*args, **kwargs)
+  
+version_info = (0,2,0)

@@ -4,14 +4,12 @@ from logging import log
 
 class Payload(object):
   
-  DEFAULT_HOST = 'https://dash-collector.fiveruns.com'
-
   def __init__(self, config):
     self.config = config
     self.data = self._extract_data()
         
   def send(self):
-    urlparts = urlparse.urlparse(os.environ['DASH_UPDATE'] or DEFAULT_HOST)
+    urlparts = urlparse.urlparse(self.url())
     (status, reason, body) = send(
       urlparts.netloc,
       self.path(),
@@ -26,6 +24,12 @@ class Payload(object):
     else:
       self._unknown(status, reason)
     return False # TODO: HTTP
+    
+  def url(self):
+    if os.environ.has_key('DASH_UPDATE'):
+      return os.environ['DASH_UPDATE']
+    else:
+      return 'https://dash-collector.fiveruns.com'
   
   def _succeeded(self, body):
     log("Succeeded.")
