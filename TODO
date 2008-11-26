@@ -6,3 +6,4 @@
   reporter, etc.
 * Better (controlled) logging
 * Documentation (pydoc?)
+* Failover URLs
