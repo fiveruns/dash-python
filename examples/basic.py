@@ -1,3 +1,11 @@
+import sys, os, gc
+
+sys.path.append('..')
+
+os.environ['DASH_UPDATE'] = 'https://dash-collector-staging.fiveruns.com'
+
+import fiveruns_dash
+
 import fiveruns_dash
 import time, random
 
@@ -18,11 +26,19 @@ class Foo(object):
   def incr(self):
       self.tally += 1
       
+config = fiveruns_dash.configure(app_token = 'd756ed4bc66f1b28f1e3ed7b2d69a6a2c55c65a1')
+config.counter("tallies", "Number of Tallies", wrap = Foo.incr, recipe_name = 'app', recipe_url = 'http://dash.fiveruns.com')
+config.time("sleeps", "Time Spent Resting", wrap = Foo.sleep, recipe_name = 'app', recipe_url = 'http://dash.fiveruns.com')
+
+# Beginnings of the 'python' recipe; for now we just add a metric or two
+# directly to the config vs creating a real recipe object (TODO)
+
+def refcount():
+  ''' Get number of system refcounts total. '''
+  return len(gc.get_objects())
   
-config = fiveruns_dash.Configuration()
-config.app_token = '67a47d5f6ce27fbe233af824b2d5b8ce10b5a54c'
-config.counter("tallies", "Number of Tallies", wrap = Foo.incr, recipe_name = 'python', recipe_url = 'http://dash.fiveruns.com')
-config.time("sleeps", "Time Spent Resting", wrap = Foo.sleep, recipe_name = 'python', recipe_url = 'http://dash.fiveruns.com')
+config.absolute("gc_objects", "Number of GC tracked objects",
+  call = refcount, recipe_name = 'python', recipe_url = 'http://dash.fiveruns.com')
 
 dash = fiveruns_dash.start(config)
 

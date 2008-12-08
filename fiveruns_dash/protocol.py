@@ -1,4 +1,5 @@
 import os, sys, httplib, mimetypes, simplejson, urlparse, zlib
+from socket import gethostname
 
 from logging import log
 
@@ -20,8 +21,10 @@ class Payload(object):
       self._succeeded(body)
       return True
     elif status in range(400, 499):
+      print body
       self._failed(reason)
     else:
+      print body
       self._unknown(status, reason)
     return False # TODO: HTTP
     
@@ -42,6 +45,7 @@ class Payload(object):
     
   def _extra_params(self):
     return [
+      ('hostname', gethostname()),
       ('app_id', self.config.app_token),
       ('ip', '127.0.0.1'), # FIXME
       ('pid', str(self.config.pid)),
@@ -111,15 +115,15 @@ class InfoPayload(Payload):
     
   def _succeeded(self, body):
     Payload._succeeded(self, body)
-    json = simplejson.loads(body)
-    self.config.process_id = json['process_id']
-    for metric in json['metric_infos']:
-      for local_metric in self.config.metrics.values():
-        metadata = local_metric.metadata()
-        if metric['name'] == metadata['name'] and metric['recipe_name'] == metadata['recipe_name'] and metric['recipe_url'] == metadata['recipe_url']:
-          log(metric['id'])
-          local_metric.info_id = metric['id']
-          break    
+    # json = simplejson.loads(body)
+    # self.config.process_id = json['process_id']
+    # for metric in json['metric_infos']:
+    #   for local_metric in self.config.metrics.values():
+    #     metadata = local_metric.metadata()
+    #     if metric['name'] == metadata['name'] and metric['recipe_name'] == metadata['recipe_name'] and metric['recipe_url'] == metadata['recipe_url']:
+    #       log(metric['id'])
+    #       local_metric.info_id = metric['id']
+    #       break    
   
 class DataPayload(Payload):
   """
@@ -136,13 +140,43 @@ class DataPayload(Payload):
       {"metric_info_id":932254187,"values":[{"value":0,"context":null}]},
       {"metric_info_id":932254188,"values":[]}
     ]
+    
+    CHANGED TO:
+    
+    [
+        {
+          "name": "vsz",
+          "help_text": "The amount of virtual memory used by this process",
+          "unit": "kbytes",
+          "data_type": "absolute",
+          "description": "Virtual Memory Usage",
+          "values": [
+            {
+              "value": 632280,
+              "context": null
+            }
+          ],
+          "recipe_name": "ruby",
+          "recipe_url": "http:\/\/dash.fiveruns.com/recipes/ruby"
+        }
+      ]
   """
   
   def path(self):
     return "/apps/%s/metrics.json" % self.config.app_token
     
   def _extract_data(self):
-    return [{"metric_info_id": m.info_id, "values": m.values()} for m in self.config.metrics.values()]
+    return [{
+      "name": m.name,
+      "help_text": m.help_text,
+      "unit": m.unit,
+      "data_type": m.data_type,
+      "description": m.description,
+      "recipe_name": m.recipe_name,
+      "recipe_url": m.recipe_url,
+      "name": m.name,
+      "values": m.values()
+    } for m in self.config.metrics.values()]
     
 class PingPayload(Payload):  
   def path(self): return "/apps/%s/ping" % self.config.app_token
@@ -153,10 +187,9 @@ class TracePayload(Payload):
 class ExceptionsPayload(Payload):  
   def path(self): return "/apps/%s/exceptions" % self.config.app_token
   
-  
 def send(host, selector, fields, files):
     content_type, body = encode(fields, files)
-    h = httplib.HTTPConnection(host)
+    h = httplib.HTTPSConnection(host)
     headers = {'User-Agent': 'Python','Content-Type': content_type}
     try:
       h.request('POST', selector, body, headers)
