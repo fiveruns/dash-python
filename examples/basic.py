@@ -1,8 +1,6 @@
 import sys, os, gc
 
-sys.path.append('..')
-
-os.environ['DASH_UPDATE'] = 'https://dash-collector-staging.fiveruns.com'
+sys.path.insert(0, '..')
 
 import fiveruns_dash
 
@@ -25,8 +23,12 @@ class Foo(object):
       
   def incr(self):
       self.tally += 1
-      
-config = fiveruns_dash.configure(app_token = 'd756ed4bc66f1b28f1e3ed7b2d69a6a2c55c65a1')
+
+if len(sys.argv) < 2:
+  print sys.argv
+  sys.exit("No app token given")
+
+config = fiveruns_dash.configure(app_token = sys.argv[1])
 config.counter("tallies", "Number of Tallies", wrap = Foo.incr, recipe_name = 'app', recipe_url = 'http://dash.fiveruns.com')
 config.time("sleeps", "Time Spent Resting", wrap = Foo.sleep, recipe_name = 'app', recipe_url = 'http://dash.fiveruns.com')
 

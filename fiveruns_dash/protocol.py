@@ -3,6 +3,8 @@ from socket import gethostname
 
 from logging import log
 
+CONNECTIONS = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
+
 class Payload(object):
   
   def __init__(self, config):
@@ -12,7 +14,7 @@ class Payload(object):
   def send(self):
     urlparts = urlparse.urlparse(self.url())
     (status, reason, body) = send(
-      urlparts.netloc,
+      urlparts,
       self.path(),
       self._extra_params(),
       [('file', 'data.json.gz', self._compressed())]
@@ -187,15 +189,16 @@ class TracePayload(Payload):
 class ExceptionsPayload(Payload):  
   def path(self): return "/apps/%s/exceptions" % self.config.app_token
   
-def send(host, selector, fields, files):
+def send(urlparts, selector, fields, files):
     content_type, body = encode(fields, files)
-    h = httplib.HTTPSConnection(host)
+    connector = CONNECTIONS[urlparts.scheme]
+    connection = connector(urlparts.netloc)
     headers = {'User-Agent': 'Python','Content-Type': content_type}
     try:
-      h.request('POST', selector, body, headers)
+      connection.request('POST', selector, body, headers)
     except:
       return [False, sys.exc_info()[1], None]      
-    res = h.getresponse()
+    res = connection.getresponse()
     return res.status, res.reason, res.read()
     
 def encode(fields, files):
