@@ -1,7 +1,9 @@
-import os, sys
+import os, sys, logging
 
 import metrics
-from logging import log
+import recipes
+
+logger = logging.getLogger('fiveruns_dash.metrics')
 
 class MetricSetting(object):
   
@@ -23,7 +25,21 @@ class MetricSetting(object):
   def percentage(self, name, description, **options):
     "Add a percentage metric"
     self.metrics[name] = metrics.PercentageMetric(name, description, **options)
-  
+
+  def add_recipe(self, name, url = None):
+    """
+    Add metrics from a recipe to this configuration.
+ 
+    name -- A Recipe instance or String
+    url -- A String, required to lookup the recipe if the name argument is not a Recipe instance
+    """
+    if isinstance(name, recipes.Recipe):
+      self._replay_recipe(name)
+    else:
+      self.add_recipe(recipes.find(name, url))
+
+  def _replay_recipe(self, recipe):
+    pass
 
 class Configuration(MetricSetting):
 
@@ -43,11 +59,3 @@ class Configuration(MetricSetting):
     for metric in self.metrics.values():
       metric._instrument()
       
-class Recipe(MetricSetting):
-  """docstring for Recipe"""
-  
-  def __init__(self, name, url):
-    super(Recipe, self).__init__()
-    self.name = name
-    self.url = url
-    

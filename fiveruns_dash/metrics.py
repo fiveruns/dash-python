@@ -1,8 +1,8 @@
 from __future__ import with_statement
 from threading import RLock
-import aspects, time
+import aspects, time, logging
 
-from logging import log
+logger = logging.getLogger('fiveruns_dash.metrics')
 
 class MetricError(StandardError): pass
 
@@ -22,6 +22,7 @@ class Metric(object):
     self.help_text = None
     self.lock = RLock()
     self._validate()
+    logger.debug("Defined %s metric `%s' (recipe `%s' for %s)" % (self.data_type, self.name, self.recipe_name, self.recipe_url))
     
   def values(self):
     return self._snapshot()

@@ -1,9 +1,10 @@
 from __future__ import with_statement
 from threading import Thread, RLock
-import time
+import time, logging
 
-from logging import log
 from protocol import InfoPayload, DataPayload
+
+logger = logging.getLogger('fiveruns_dash.session')
 
 class Reporter(Thread):
   
@@ -16,7 +17,7 @@ class Reporter(Thread):
     Thread.__init__(self)
     
   def stop(self, *args, **kwargs):
-    log("Shutting down...")
+    logger.debug("Shutting down...")
     self.stop_requested = True
   
   def run(self):
@@ -27,14 +28,14 @@ class Reporter(Thread):
       if self.stop_requested: break 
       if self._is_ready():
         self._report_data()
-    log("Shut down")
+    logger.debug("Shut down")
           
   def _is_ready(self):
     return time.time() - self.last_report > self.interval
     
   def _report_info(self):
     info = InfoPayload(self.config)
-    log("Sending InfoPayload...")
+    logger.debug("Sending InfoPayload...")
     self.reported_info = info.send()
     return self.reported_info
 
@@ -42,8 +43,8 @@ class Reporter(Thread):
     self.last_report = time.time()
     data = DataPayload(self.config)
     if self.reported_info or self._report_info():
-      log("Sending DataPayload...")
+      logger.debug("Sending DataPayload...")
       return data.send()
     else:
-      log("Discarding data for this interval.")
+      logger.debug("Discarding data for this interval.")
       return False

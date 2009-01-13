@@ -1,7 +1,7 @@
-import os, sys, httplib, mimetypes, simplejson, urlparse, zlib
+import os, sys, httplib, mimetypes, simplejson, urlparse, zlib, logging
 from socket import gethostname
 
-from logging import log
+logger = logging.getLogger('fiveruns_dash.protocol')
 
 CONNECTIONS = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
 
@@ -12,6 +12,7 @@ class Payload(object):
     self.data = self._extract_data()
         
   def send(self):
+    logger.debug("Sending to %s%s" % (self.url(), self.path()))
     urlparts = urlparse.urlparse(self.url())
     (status, reason, body) = send(
       urlparts,
@@ -37,13 +38,13 @@ class Payload(object):
       return 'https://dash-collector.fiveruns.com'
   
   def _succeeded(self, body):
-    log("Succeeded.")
+    logger.debug("Succeeded.")
     
   def _failed(self, reason):
-    log("Failed (%s)" % reason)
+    logger.debug("Failed (%s)" % reason)
   
   def _unknown(self, status, reason):
-    log("Unknown error (%s, %s)" % (status, reason))
+    logger.debug("Unknown error (%s, %s)" % (status, reason))
     
   def _extra_params(self):
     return [
@@ -123,7 +124,7 @@ class InfoPayload(Payload):
     #   for local_metric in self.config.metrics.values():
     #     metadata = local_metric.metadata()
     #     if metric['name'] == metadata['name'] and metric['recipe_name'] == metadata['recipe_name'] and metric['recipe_url'] == metadata['recipe_url']:
-    #       log(metric['id'])
+    #       logger.debug(metric['id'])
     #       local_metric.info_id = metric['id']
     #       break    
   
@@ -228,5 +229,5 @@ def encode(fields, files):
     return content_type, body
 
 def _content_type(filename):
-    return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+  return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
   
