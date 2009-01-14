@@ -22,7 +22,7 @@ class Metric(object):
     self.help_text = None
     self.lock = RLock()
     self._validate()
-    logger.debug("Defined %s metric `%s' (recipe `%s' for %s)" % (self.data_type, self.name, self.recipe_name, self.recipe_url))
+    logger.debug("Defined %s metric `%s' (recipe `%s' for `%s')" % (self.data_type, self.name, self.recipe_name, self.recipe_url))
     
   def values(self):
     return self._snapshot()
@@ -153,3 +153,46 @@ class PercentageMetric(Metric):
     return self._snapshot()
   
   def _data_type(self): return 'percentage'
+
+class MetricSetting(object):
+  
+  def __init__(self):
+    self.metrics = {}
+  
+  def time(self, name, *args, **options):
+    "Add a time metric"
+    self._add_metric(TimeMetric, name, *args, **options)
+
+  def counter(self, name, *args, **options):
+    "Add a counter metric"
+    self._add_metric(CounterMetric, name, *args, **options)
+
+  def absolute(self, name, *args, **options):
+    "Add an absolute metric"
+    self._add_metric(AbsoluteMetric, name, *args, **options)
+
+  def percentage(self, name, *args, **options):
+    "Add a percentage metric"
+    self._add_metric(PercentageMetric, name, *args, **options)
+
+  def add_recipe(self, name, url = None):
+    """
+    Add metrics from a recipe to this configuration.
+ 
+    name -- A Recipe instance or String
+    url -- A String, required to lookup the recipe if the name argument is not a Recipe instance
+    """
+    if isinstance(name, str):
+      self.add_recipe(recipes.find(name, url))
+    else:
+      self._replay_recipe(name)
+
+  def _replay_recipe(self, recipe):
+    self.metrics.update(recipe.metrics)
+
+  def _add_metric(self, metric_class, name, *args, **options):
+    "Add a metric"
+    metric =  metric_class(name, *args, **options)
+    self.metrics[(metric.name, metric.recipe_name, metric.recipe_url)] = metric
+
+import recipes

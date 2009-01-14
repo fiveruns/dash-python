@@ -14,6 +14,7 @@ from recipes import Recipe
 def start(config):
   config.instrument()
   reporter = Reporter(config)
+  config.reporter = reporter
   reporter.start()
   return reporter
   

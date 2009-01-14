@@ -1,47 +1,12 @@
-import os, sys, logging
+import os, sys, logging, traceback
+import aspects
 
 import metrics
 import recipes
 
 logger = logging.getLogger('fiveruns_dash.metrics')
 
-class MetricSetting(object):
-  
-  def __init__(self):
-    self.metrics = {}
-  
-  def time(self, name, description, **options):
-    "Add a time metric"
-    self.metrics[name] = metrics.TimeMetric(name, description, **options)
-
-  def counter(self, name, description, **options):
-    "Add a counter metric"
-    self.metrics[name] = metrics.CounterMetric(name, description, **options)
-
-  def absolute(self, name, description, **options):
-    "Add an absolute metric"
-    self.metrics[name] = metrics.AbsoluteMetric(name, description, **options)
-
-  def percentage(self, name, description, **options):
-    "Add a percentage metric"
-    self.metrics[name] = metrics.PercentageMetric(name, description, **options)
-
-  def add_recipe(self, name, url = None):
-    """
-    Add metrics from a recipe to this configuration.
- 
-    name -- A Recipe instance or String
-    url -- A String, required to lookup the recipe if the name argument is not a Recipe instance
-    """
-    if isinstance(name, recipes.Recipe):
-      self._replay_recipe(name)
-    else:
-      self.add_recipe(recipes.find(name, url))
-
-  def _replay_recipe(self, recipe):
-    pass
-
-class Configuration(MetricSetting):
+class Configuration(metrics.MetricSetting):
 
   def __init__(self, **options):
     super(Configuration, self).__init__()
@@ -52,10 +17,32 @@ class Configuration(MetricSetting):
     self.pwd = os.getcwd()
     self.process_id = None
     self.report_interval = 60
-    for k, v in options.iteritems():
-      self.__dict__[k] = v
+    self.reporter = None
+    self.__dict__.update(**options)
+
+  def add_exceptions_from(self, target):
+    logger.debug("Capturing exceptions from %s" % target)
+    aspects.with_wrap(self._capture_exceptions, target) 
 
   def instrument(self):
     for metric in self.metrics.values():
       metric._instrument()
+
+  def _capture_exceptions(self, obj):
+    try:
+      yield aspects.proceed
+    except Exception, e:
+      if self.reporter:
+        try:
+          self.reporter.add_exception(e)        
+        except:
+          logger.debug("Could not add exception due to internal error: %s\n%s" % (sys.exc_info()[1], "\n".join(traceback.format_tb(sys.exc_info()[2]))))
+      raise
+
+  def _replay_recipe(self, recipe):
+    logger.debug("Adding %d metric(s) from recipe `%s' for %s to configuration" % (
+      len(recipe.metrics),
+      recipe.name, recipe.url))
+    super(Configuration, self)._replay_recipe(recipe)
+  
       

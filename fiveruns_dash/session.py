@@ -2,6 +2,7 @@ from __future__ import with_statement
 from threading import Thread, RLock
 import time, logging
 
+import exceptions
 from protocol import InfoPayload, DataPayload
 
 logger = logging.getLogger('fiveruns_dash.session')
@@ -14,6 +15,7 @@ class Reporter(Thread):
     self.tick = 1
     self.stop_requested = False
     self.reported_info = False
+    self.exception_recorder = exceptions.Recorder(self)
     Thread.__init__(self)
     
   def stop(self, *args, **kwargs):
@@ -29,6 +31,9 @@ class Reporter(Thread):
       if self._is_ready():
         self._report_data()
     logger.debug("Shut down")
+
+  def add_exception(self, info, sample = {}):
+    self.exception_recorder.record(info, sample)
           
   def _is_ready(self):
     return time.time() - self.last_report > self.interval

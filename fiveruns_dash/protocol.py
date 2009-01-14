@@ -3,7 +3,7 @@ from socket import gethostname
 
 logger = logging.getLogger('fiveruns_dash.protocol')
 
-CONNECTIONS = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
+connections = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
 
 class Payload(object):
   
@@ -12,7 +12,7 @@ class Payload(object):
     self.data = self._extract_data()
         
   def send(self):
-    logger.debug("Sending to %s%s" % (self.url(), self.path()))
+    logger.debug("Sending to %s%s\n%s", self.url(), self.path(), self.data)
     urlparts = urlparse.urlparse(self.url())
     (status, reason, body) = send(
       urlparts,
@@ -192,7 +192,7 @@ class ExceptionsPayload(Payload):
   
 def send(urlparts, selector, fields, files):
     content_type, body = encode(fields, files)
-    connector = CONNECTIONS[urlparts.scheme]
+    connector = connections[urlparts.scheme]
     connection = connector(urlparts.netloc)
     headers = {'User-Agent': 'Python','Content-Type': content_type}
     try:

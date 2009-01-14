@@ -4,47 +4,38 @@ logger = logging.getLogger('fiveruns_dash.recipes')
 
 registry = {}
 
-class Recipe:
+class Recipe(metrics.MetricSetting):
 
   def __init__(self, name, url):
+    super(Recipe, self).__init__()
     self.name = name
     self.url = url
-    self.metrics = {}
     self._register()
-  
-  def time(self, name, *args, **options):
-    "Add a time metric"
-    self._add_metric(metrics.TimeMetric, name, *args, **options)
 
-  def counter(self, name, *args, **options):
-    "Add a counter metric"
-    self._add_metric(metrics.CounterMetric, name, *args, **options)
-
-  def absolute(self, name, *args, **options):
-    "Add an absolute metric"
-    self_.add_metric(metrics.AbsoluteMetric, name, *args, **options)
-
-  def percentage(self, name, *args, **options):
-    "Add a percentage metric"
-    self._add_metric(metrics.PercentageMetric, name, *args, **options)
-
-  def _add_metric(self, metric_class, name, *args, **options):
-    "Add a metric to this recipe"
+  def _add_metric(self, *args, **options):
+    "Add a metric"
     options['recipe_name'] = self.name
     options['recipe_url'] = self.url
-    self.metrics[name] = metric_class(name, *args, **options)
+    super(Recipe, self)._add_metric(*args, **options)
 
   def _register(self):
     "Register this recipe"
     registry[(self.name, self.url)] = self
-    logger.debug("Registered recipe `%s' for %s" % (self.name, self.url))
+    logger.debug("Registered recipe `%s' for `%s'" % (self.name, self.url))
+
+  def _replay_recipe(self, recipe):
+    logger.debug("Adding %d metric(s) from recipe `%s' for `%s' to recipe `%s' for `%s'" % (
+      len(recipe.metrics),
+      recipe.name, recipe.url,
+      self.name, self.url))
+    super(Recipe, self)._replay_recipe(recipe)
 
 def find(name, url):
   "Find a registered recipe"
   if registry.has_key((name, url)):
-    return registery[(name, url)]
+    return registry[(name, url)]
   else:
-    raise UnknownRecipe
+    raise UnknownRecipe(name, url)
 
 class UnknownRecipe(NameError):
   """
@@ -56,6 +47,6 @@ class UnknownRecipe(NameError):
     self.url = url
 
   def __str__(self):
-    return repr("%s (%s)" % (self.name, self.url))
+    return "`%s' for `%s'" % (self.name, self.url)
 
   
