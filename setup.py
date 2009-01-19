@@ -9,5 +9,5 @@ setup(
   author_email = "dev@fiveruns.com",
   url = "http://dash.fiveruns.com",
   packages = find_packages(exclude = "tests"),
-  install_requires = ['Twisted', 'python-aspects>=1.3']
+  install_requires = ['simplejson', 'python-aspects>=1.3']
 )
