@@ -7,11 +7,8 @@ class NullLoggingHandler(logging.Handler):
 logging_handler = NullLoggingHandler()
 logger = logging.getLogger("fiveruns_dash").addHandler(logging_handler)
 
-from configuration import Configuration
-from session import Reporter
-from recipes import Recipe
-
 def start(config):
+  from session import Reporter
   config.instrument()
   reporter = Reporter(config)
   config.reporter = reporter
@@ -19,9 +16,11 @@ def start(config):
   return reporter
   
 def configure(*args, **kwargs):
+  from configuration import Configuration
   return Configuration(*args, **kwargs)
 
 def recipe(name, url):
+  from recipes import Recipe
   return Recipe(name, url)
   
-version_info = (0,2,0)
+version_info = (0,2,1)

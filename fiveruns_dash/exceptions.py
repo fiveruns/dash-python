@@ -21,7 +21,7 @@ class Recorder:
   def _extract(self, info):
     return {
       "name": type(info).__name__,
-      "message": info.message,
+      "message": "\n".join(info.args),
       "backtrace": "Tracebacks are not currently supported for Python"
     }
 
