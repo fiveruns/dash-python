@@ -34,6 +34,15 @@ def find(name, url):
   "Find a registered recipe"
   if registry.has_key((name, url)):
     return registry[(name, url)]
+  elif not url:
+    matching = [r for k, r in registry.iteritems() if k[0] == name]
+    number = len(matching)
+    if number == 1:
+      return matching[0]
+    elif number > 1:
+      raise AmbiguousRecipe(name, [u for (n, u) in matching])  
+    else:
+      raise UnknownRecipe(name, url)
   else:
     raise UnknownRecipe(name, url)
 
@@ -48,5 +57,17 @@ class UnknownRecipe(NameError):
 
   def __str__(self):
     return "`%s' for `%s'" % (self.name, self.url)
+    
+class AmbiguousRecipe(NameError):
+  """
+  Raised when fiveruns_dash.recipes.find matches multiple requested recipes
+  """
+
+  def __init__(self, name, urls):
+    self.name = name
+    self.urls = urls
+
+  def __str__(self):
+    return "`%s' defined for `%s'" % (self.name, self.urls)
 
   

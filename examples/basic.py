@@ -41,7 +41,7 @@ recipe.counter("tallies", "Number of Tallies", wrap = Foo.incr)
 recipe.time("sleeps", "Time Spent Resting", wrap = Foo.sleep)
 
 config = fiveruns_dash.configure(app_token = sys.argv[1])
-config.add_recipe(recipe)
+config.add_recipe('app')
 
 config.add_exceptions_from(Foo.raise_error)
 
