@@ -93,8 +93,14 @@ class CounterMetric(Metric):
       raise MetricError("Required `wrap' or `call' option")
       
   def _instrument(self):
-    if self.options['wrap']:
-      aspects.with_wrap(self._wrapper, self.options['wrap'])   
+    self._wrap(self.options.get('wrap', []))
+
+  def _wrap(self, target):
+    if callable(target):
+      aspects.with_wrap(self._wrapper, target)
+    else:
+      for item in target:
+        self._wrap(item)
       
   def _wrapper(self, obj, *args, **kwargs):
     with self.lock:
@@ -116,13 +122,20 @@ class TimeMetric(Metric):
       raise MetricError("Required `wrap'")
   
   def _instrument(self):
-    aspects.with_wrap(self._wrapper, self.options['wrap'])    
+    self._wrap(self.options.get('wrap', []))
+
+  def _wrap(self, target):
+    if callable(target):
+      aspects.with_wrap(self._wrapper, target)
+    else:
+      for item in target:
+        self._wrap(item)
   
   def _wrapper(self, obj, *args, **kwargs):
     with self.lock:
       context = self._current_context(obj, *args, **kwargs)
       container = self._container_for_context(context)
-      start = time.time()      
+      start = time.time()
       yield aspects.proceed
       value = time.time() - start
       container["value"] += value
