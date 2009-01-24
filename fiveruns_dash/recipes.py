@@ -20,8 +20,12 @@ class Recipe(metrics.MetricSetting):
 
   def _register(self):
     "Register this recipe"
-    registry[(self.name, self.url)] = self
-    logger.debug("Registered recipe `%s' for `%s'" % (self.name, self.url))
+    key = (self.name, self.url)
+    if registry.has_key(key):
+      raise DuplicateRecipe(self.name, self.url)
+    else:
+      registry[key] = self
+      logger.debug("Registered recipe `%s' for `%s'" % (self.name, self.url))
 
   def _replay_recipe(self, recipe):
     logger.debug("Adding %d metric(s) from recipe `%s' for `%s' to recipe `%s' for `%s'" % (
@@ -46,6 +50,15 @@ def find(name, url):
   else:
     raise UnknownRecipe(name, url)
 
+class RecipeError(NameError):
+
+  def __init__(self, name, urls):
+    self.name = name
+    self.urls = urls
+
+  def __str__(self):
+    return "`%s' defined for `%s'" % (self.name, self.urls)
+
 class UnknownRecipe(NameError):
   """
   Raised when fiveruns_dash.recipes.find cannot find a requested recipe
@@ -58,16 +71,14 @@ class UnknownRecipe(NameError):
   def __str__(self):
     return "`%s' for `%s'" % (self.name, self.url)
     
-class AmbiguousRecipe(NameError):
+class AmbiguousRecipe(RecipeError):
   """
   Raised when fiveruns_dash.recipes.find matches multiple requested recipes
   """
 
-  def __init__(self, name, urls):
-    self.name = name
-    self.urls = urls
-
-  def __str__(self):
-    return "`%s' defined for `%s'" % (self.name, self.urls)
+class DuplicateRecipe(RecipeError):
+  """
+  Raised when fiveruns_dash.recipes.find cannot register a recipe due to a duplicate
+  """    
 
   
