@@ -4,8 +4,16 @@ class NullLoggingHandler(logging.Handler):
   def emit(self, record):
     pass
 
-logging_handler = NullLoggingHandler()
-logger = logging.getLogger("fiveruns_dash").addHandler(logging_handler)
+def _configure_logger():
+  logger = logging.getLogger("fiveruns_dash")
+  stream = logging.StreamHandler()
+  logger.addHandler(stream)
+  formatter = logging.Formatter("%(name)s [%(levelname)s] %(message)s")
+  stream.setFormatter(formatter)
+  logger.setLevel(logging.WARN)
+  return logger
+
+logger = _configure_logger()
 
 def start(config):
   from session import Reporter

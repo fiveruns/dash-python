@@ -1,169 +1,113 @@
 import os, sys, httplib, mimetypes, simplejson, urlparse, zlib, logging
 from socket import gethostname
 
+import scm
+
 logger = logging.getLogger('fiveruns_dash.protocol')
 
 connections = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
 
 class Payload(object):
-  
-  def __init__(self, config):
-    self.config = config
-    self.data = self._extract_data()
-        
-  def send(self):
-    logger.debug("Sending to %s%s\n%s", self.url(), self.path(), self.data)
-    urlparts = urlparse.urlparse(self.url())
-    (status, reason, body) = send(
-      urlparts,
-      self.path(),
-      self._extra_params(),
-      [('file', 'data.json.gz', self._compressed())]
-    )
-    if status == 201:
-      self._succeeded(body)
-      return True
-    elif status in range(400, 499):
-      print body
-      self._failed(reason)
-    else:
-      print body
-      self._unknown(status, reason)
-    return False # TODO: HTTP
-    
-  def url(self):
-    if os.environ.has_key('DASH_UPDATE'):
-      return os.environ['DASH_UPDATE']
-    else:
-      return 'https://dash-collector.fiveruns.com'
-  
-  def _succeeded(self, body):
-    logger.debug("Succeeded.")
-    
-  def _failed(self, reason):
-    logger.debug("Failed (%s)" % reason)
-  
-  def _unknown(self, status, reason):
-    logger.debug("Unknown error (%s, %s)" % (status, reason))
-    
-  def _extra_params(self):
-    return [
-      ('hostname', gethostname()),
-      ('app_id', self.config.app_token),
-      ('ip', '127.0.0.1'), # FIXME
-      ('pid', str(self.config.pid)),
-      ('pwd', self.config.pwd),
-      ('vm_version', self.config.vm_version),
-      ('process_id', self.config.process_id and str(self.config.process_id) or '')
-    ]
-    
-  def _compressed(self):
-    return zlib.compress(self._serialize())
-    
-  def _serialize(self):
-    return simplejson.dumps(self.data)
-    
-      
+
+    def __init__(self, config):
+        self.config = config
+        self.data = self._extract_data()
+
+    def send(self):
+        logger.debug("Sending to %s%s\n%s", self.url(), self.path(), self.data)
+        urlparts = urlparse.urlparse(self.url())
+        (status, reason, body) = send(
+          urlparts,
+          self.path(),
+          self._extra_params(),
+          [('file', 'data.json.gz', self._compressed())]
+        )
+        if status == 201:
+            self._succeeded(body)
+            return True
+        elif status in range(400, 499):
+            print body
+            self._failed(reason)
+        else:
+            print body
+            self._unknown(status, reason)
+        return False # TODO: HTTP
+
+    def url(self):
+        if os.environ.has_key('DASH_UPDATE'):
+            return os.environ['DASH_UPDATE']
+        else:
+            return 'https://dash-collector.fiveruns.com'
+
+    def _succeeded(self, body):
+        logger.debug("Succeeded.")
+
+    def _failed(self, reason):
+        logger.debug("Failed (%s)" % reason)
+
+    def _unknown(self, status, reason):
+        logger.debug("Unknown error (%s, %s)" % (status, reason))
+
+    def _extra_params(self):
+        return [
+          ('hostname', gethostname()),
+          ('app_id', self.config.app_token),
+          ('ip', '127.0.0.1'), # FIXME
+          ('pid', str(self.config.pid)),
+          ('pwd', self.config.pwd),
+          ('vm_version', self.config.vm_version),
+          ('process_id', self.config.process_id and str(self.config.process_id) or ''),
+        ]
+
+    def _compressed(self):
+        return zlib.compress(self._serialize())
+
+    def _serialize(self):
+        return simplejson.dumps(self.data)
+
+
 class InfoPayload(Payload):
-  """
-  Sample data structure:
+
+    def path(self):
+        return "/apps/%s/processes.json" % self.config.app_token
+
+    def _extract_data(self):
+        metric_infos = [m.metadata() for m in self.config.metrics.values()]
+        recipes = []
+        for info in metric_infos:
+            key = {"name": info["recipe_name"], "url": info["recipe_url"]}
+            if all(v is None for v in key.values()): continue
+            if not key in recipes: recipes.append(key)
+        data = {"metric_infos" : metric_infos, "recipes" : recipes}
+        data.update(self.config.extra_payload_data.get('info', {}))
+        return data
+
+    def _extra_params(self):
+        params = super(InfoPayload, self)._extra_params()
+        return params + self._scm_data()
+
+    def _scm_data(self):
+        handler = scm.at(self.config.pwd)
+        if handler:
+            return dict(handler).items()
+        else:
+            return []
   
-    {
-      "metric_infos": [
-        {"name":"rss","data_type":"absolute","unit":"bytes","recipe_name":"python","description":"Resident Memory Usage","recipe_url":"http:\/\/dash.fiveruns.com"},
-        {"name":"pmem","data_type":"percentage","recipe_name":"python","description":"Resident Memory Usage","recipe_url":"http:\/\/dash.fiveruns.com"},
-        {"name":"cpu","data_type":"percentage","recipe_name":"python","description":"CPU Usage","recipe_url":"http:\/\/dash.fiveruns.com"},
-        {"name":"response_time","data_type":"time","recipe_name":"django","description":"Response Time","recipe_url":"http:\/\/dash.fiveruns.com"},
-        {"name":"requests","data_type":"counter","recipe_name":"django","description":"Requests","recipe_url":"http:\/\/dash.fiveruns.com"},
-        {"name":"render_time","data_type":"time","recipe_name":"django","description":"Render Time","recipe_url":"http:\/\/dash.fiveruns.com"}
-      ],
-      "recipes":[
-        {"name":"python","url":"http:\/\/dash.fiveruns.com"},
-        {"name":"django","url":"http:\/\/dash.fiveruns.com"}
-      ]
-    }
-  
-  Additional params (TODO, from Ruby):
-  
-    :type => 'info',
-    :ip => Fiveruns::Dash.host.ip_address,
-    :mac => Fiveruns::Dash.host.mac_address,
-    :hostname => Fiveruns::Dash.host.hostname,
-    :pid => Process.pid,
-    :os_name => Fiveruns::Dash.host.os_name,
-    :os_version => Fiveruns::Dash.host.os_version,
-    :pwd => Dir.pwd,
-    :arch => Fiveruns::Dash.host.architecture,
-    :dash_version => Fiveruns::Dash::Version::STRING,
-    :ruby_version => RUBY_VERSION,
-    :started_at => @started_at
-    :scm_revision => scm.revision,
-    :scm_time => scm.time,
-    :scm_type => scm.class.scm_type,
-    :scm_url => scm.url
-    
-  """
-  
-  def path(self):
-    return "/apps/%s/processes.json" % self.config.app_token
-      
-  def _extract_data(self):
-    metric_infos = [m.metadata() for m in self.config.metrics.values()]
-    recipes = []
-    for info in metric_infos:
-      key = {"name": info["recipe_name"], "url": info["recipe_url"]}
-      if all(v is None for v in key.values()): continue
-      if not key in recipes: recipes.append(key)
-    return {"metric_infos" : metric_infos, "recipes" : recipes}
-    
-  def _succeeded(self, body):
-    Payload._succeeded(self, body)
-    # json = simplejson.loads(body)
-    # self.config.process_id = json['process_id']
-    # for metric in json['metric_infos']:
-    #   for local_metric in self.config.metrics.values():
-    #     metadata = local_metric.metadata()
-    #     if metric['name'] == metadata['name'] and metric['recipe_name'] == metadata['recipe_name'] and metric['recipe_url'] == metadata['recipe_url']:
-    #       logger.debug(metric['id'])
-    #       local_metric.info_id = metric['id']
-    #       break    
-  
+        
+
+    def _succeeded(self, body):
+        Payload._succeeded(self, body)
+        # json = simplejson.loads(body)
+        # self.config.process_id = json['process_id']
+        # for metric in json['metric_infos']:
+        #   for local_metric in self.config.metrics.values():
+        #     metadata = local_metric.metadata()
+        #     if metric['name'] == metadata['name'] and metric['recipe_name'] == metadata['recipe_name'] and metric['recipe_url'] == metadata['recipe_url']:
+        #       logger.debug(metric['id'])
+        #       local_metric.info_id = metric['id']
+        #       break    
+
 class DataPayload(Payload):
-  """
-  Sample data structure:
-    [
-      {"metric_info_id":932254178,"values":[{"value":68616,"context":null}]},
-      {"metric_info_id":932254179,"values":[{"value":3.3,"context":null}]},
-      {"metric_info_id":932254180,"values":[{"value":13.2991273667512,"context":null}]},
-      {"metric_info_id":932254181,"values":[]},{"metric_info_id":932254182,"values":[]},
-      {"metric_info_id":932254183,"values":[{"value":0,"context":null}]},
-      {"metric_info_id":932254184,"values":[]},
-      {"metric_info_id":932254185,"values":[{"value":0,"context":null}]},
-      {"metric_info_id":932254186,"values":[{"value":0,"context":null}]},
-      {"metric_info_id":932254187,"values":[{"value":0,"context":null}]},
-      {"metric_info_id":932254188,"values":[]}
-    ]
-    
-    CHANGED TO:
-    
-    [
-        {
-          "name": "vsz",
-          "help_text": "The amount of virtual memory used by this process",
-          "unit": "kbytes",
-          "data_type": "absolute",
-          "description": "Virtual Memory Usage",
-          "values": [
-            {
-              "value": 632280,
-              "context": null
-            }
-          ],
-          "recipe_name": "ruby",
-          "recipe_url": "http:\/\/dash.fiveruns.com/recipes/ruby"
-        }
-      ]
-  """
   
   def path(self):
     return "/apps/%s/metrics.json" % self.config.app_token

@@ -15,6 +15,7 @@ class Configuration(metrics.MetricSetting):
     self.vm_version = sys.version
     self.pid = os.getpid()
     self.pwd = os.getcwd()
+    self.extra_payload_data = {}
     self.process_id = None
     self.report_interval = 60
     self.reporter = None
