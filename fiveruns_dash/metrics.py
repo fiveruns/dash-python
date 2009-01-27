@@ -97,6 +97,7 @@ class CounterMetric(Metric):
 
   def _wrap(self, target):
     if callable(target):
+      logger.debug("%s wrapping %s" % (self, target))
       aspects.with_wrap(self._wrapper, target)
     else:
       for item in target:
@@ -107,7 +108,7 @@ class CounterMetric(Metric):
       context = self._current_context(obj, *args, **kwargs)
       container = self._container_for_context(context)
       container["value"] += 1
-    yield aspects.proceed
+      yield aspects.proceed
     
   def _data_type(self): return 'counter'
   
@@ -126,6 +127,7 @@ class TimeMetric(Metric):
 
   def _wrap(self, target):
     if callable(target):
+      logger.debug("%s wrapping %s" % (self, target))
       aspects.with_wrap(self._wrapper, target)
     else:
       for item in target:

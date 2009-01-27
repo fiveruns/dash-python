@@ -14,6 +14,10 @@ class Payload(object):
         self.data = self._extract_data()
 
     def send(self):
+        if not self.valid():
+            logger.error("Invalid payload format")
+            logger.debug(self.data)
+            return False
         logger.debug("Sending to %s%s\n%s", self.url(), self.path(), self.data)
         urlparts = urlparse.urlparse(self.url())
         (status, reason, body) = send(
@@ -38,6 +42,13 @@ class Payload(object):
             return os.environ['DASH_UPDATE']
         else:
             return 'https://dash-collector.fiveruns.com'
+
+    def valid(self):
+        if hasattr(self.__class__, 'validations'):
+            for validation in self._class__.validations:
+                if not validation(self):
+                    return False
+        return True
 
     def _succeeded(self, body):
         logger.debug("Succeeded.")
@@ -92,8 +103,6 @@ class InfoPayload(Payload):
             return dict(handler).items()
         else:
             return []
-  
-        
 
     def _succeeded(self, body):
         Payload._succeeded(self, body)

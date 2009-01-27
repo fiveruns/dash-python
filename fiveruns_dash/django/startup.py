@@ -1,4 +1,4 @@
-import logging, django
+import logging, django, sys
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management.commands.runserver import Command
 import fiveruns_dash, aspects
@@ -32,6 +32,8 @@ def start(settings):
     global configuration
     if not hasattr(settings, 'DASH_TOKEN'):
         raise ImproperlyConfigured, 'Error configuring fiveruns_dash.django. Is DASH_TOKEN defined?'
+    if hasattr(settings, 'DASH_LOGGER_LEVEL'):
+      logging.getLogger('fiveruns_dash').setLevel(settings.DASH_LOGGER_LEVEL)
     configuration = fiveruns_dash.configure(app_token = settings.DASH_TOKEN)
     for recipe in _builtin_recipes():
         configuration.add_recipe(recipe)
@@ -42,8 +44,6 @@ def start(settings):
             configuration.add_recipe(*list(recipe))
     if hasattr(settings, 'DASH_CONFIGURE_WITH'):
       settings.DASH_CONFIGURE_WITH(configure)
-    if hasattr(settings, 'DASH_LOGGER_LEVEL'):
-      logging.getLogger('fiveruns_dash').setLevel(settings.DASH_LOGGER_LEVEL)
     aspects.with_wrap(_start_unless_reloading, Command.handle)
 
 def _start_unless_reloading(*args, **options):
@@ -72,8 +72,37 @@ def _builtin_recipes():
     Define and yield the recipes for Django
     """
     recipe = fiveruns_dash.recipe('django', 'http://dash.fiveruns.com')
-    from django.db.models import Model
-    recipe.time('saves', 'Calls to Model.save', wrap = Model.save)
+
+    # Metric: orm_util
+    # TODO: Wrap higher up?
+    from django.db.models.sql import BaseQuery
+    recipe.time('orm_util', 'django.db ORM Utilization', wrap = BaseQuery.execute_sql)
+
+    # Metric: db_util
+    from django.core.exceptions import ImproperlyConfigured
+    try:
+        import django.db
+        # Get the cursor class
+        cursor_names = ('CursorWrapper', 'FormatStylePlaceholderCursor')
+        for name in cursor_names:
+            if hasattr(django.db.backend, name):
+                cursor_class = getattr(django.db.backend, name)
+                recipe.time('db_util', 'django.db Backend Utilization', wrap = cursor_class.execute)
+                break
+        else:
+            logger.error("Could not find Django DB backend cursor, skipping Database Utilization metric")
+    except ImproperlyConfigured:
+        logger.warn("Could not find Django DB backend, skipping Database Utilization metric")
+        pass
+
+    from django.core.handlers.base import BaseHandler
+
+    # Metric: requests
+    recipe.counter('requests', "Requests", wrap = BaseHandler.get_response)
+
+    # Metric: response_time
+    recipe.time('response_time', "Response Time", wrap = BaseHandler.get_response)
+
     yield recipe
 
 def _add_framework_metadata():
