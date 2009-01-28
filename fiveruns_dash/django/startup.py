@@ -2,6 +2,7 @@ import logging, django, sys
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management.commands.runserver import Command
 import fiveruns_dash, aspects
+from fiveruns_dash.metrics import Calculation
 
 logger = logging.getLogger('fiveruns_dash.django')
 
@@ -76,7 +77,7 @@ def _builtin_recipes():
     # Metric: orm_util
     # TODO: Wrap higher up?
     from django.db.models.sql import BaseQuery
-    recipe.time('orm_util', 'django.db ORM Utilization', wrap = BaseQuery.execute_sql)
+    recipe.time('orm_time', 'django.db ORM Time', wrap = BaseQuery.execute_sql)
 
     # Metric: db_util
     from django.core.exceptions import ImproperlyConfigured
@@ -87,7 +88,7 @@ def _builtin_recipes():
         for name in cursor_names:
             if hasattr(django.db.backend, name):
                 cursor_class = getattr(django.db.backend, name)
-                recipe.time('db_util', 'django.db Backend Utilization', wrap = cursor_class.execute)
+                recipe.time('db_time', 'django.db Backend Time', wrap = cursor_class.execute)
                 break
         else:
             logger.error("Could not find Django DB backend cursor, skipping Database Utilization metric")
@@ -102,6 +103,12 @@ def _builtin_recipes():
 
     # Metric: response_time
     recipe.time('response_time', "Response Time", wrap = BaseHandler.get_response)
+
+    recipe.percentage('orm_util', "django.db ORM Utilization",
+                      calculation = Calculation(lambda orm, total: (orm / total) * 100.0, 'orm_time', 'response_time'))
+
+    recipe.percentage('db_util', "django.db Backend Utilization",
+                      calculation = Calculation(lambda db, total: (db / total) * 100.0, 'db_time', 'response_time'))
 
     yield recipe
 

@@ -117,22 +117,37 @@ class InfoPayload(Payload):
         #       break    
 
 class DataPayload(Payload):
-  
-  def path(self):
-    return "/apps/%s/metrics.json" % self.config.app_token
-    
-  def _extract_data(self):
-    return [{
-      "name": m.name,
-      "help_text": m.help_text,
-      "unit": m.unit,
-      "data_type": m.data_type,
-      "description": m.description,
-      "recipe_name": m.recipe_name,
-      "recipe_url": m.recipe_url,
-      "name": m.name,
-      "values": m.values()
-    } for m in self.config.metrics.values()]
+
+    def path(self):
+        return "/apps/%s/metrics.json" % self.config.app_token
+
+    def _extract_data(self):
+        data = {}
+        real_data = {}
+        real_metrics = [(name, metric) for name, metric in  self.config.metrics.iteritems() if not metric.virtual]
+        virtual_metrics = [(name, metric) for name, metric in  self.config.metrics.iteritems() if metric.virtual]
+        for name, metric in real_metrics:
+            real_data[name] = self._envelope(metric, metric.values())
+        for name, metric in virtual_metrics:
+            data[name] = self._envelope(metric, metric.calculate(real_data))
+        data.update(real_data)
+        return data.values()
+
+    def _envelope(self, m, values):
+        """
+        Metric data and metadata container
+        """
+        return {
+            "name": m.name,
+            "help_text": m.help_text,
+            "unit": m.unit,
+            "data_type": m.data_type,
+            "description": m.description,
+            "recipe_name": m.recipe_name,
+            "recipe_url": m.recipe_url,
+            "name": m.name,
+            "values": values }
+
     
 class PingPayload(Payload):  
   def path(self): return "/apps/%s/ping" % self.config.app_token
