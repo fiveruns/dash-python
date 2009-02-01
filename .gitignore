@@ -1,6 +1,4 @@
-*.pyc
-*.log
-*.pid
-*.egg-info
 build
 dist
+*.egg-info
+*.pyc

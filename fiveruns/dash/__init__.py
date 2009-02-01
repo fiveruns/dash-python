@@ -5,7 +5,7 @@ class NullLoggingHandler(logging.Handler):
     pass
 
 def _configure_logger():
-  logger = logging.getLogger("fiveruns_dash")
+  logger = logging.getLogger("fiveruns.dash")
   stream = logging.StreamHandler()
   logger.addHandler(stream)
   formatter = logging.Formatter("%(name)s [%(levelname)s] %(message)s")
@@ -53,10 +53,3 @@ def recipe(name, url):
   """
   from recipes import Recipe
   return Recipe(name, url)
-  
-version_info = (0,2,1)
-
-if __name__ == "__main__":
-    import recipes
-    import doctest
-    doctest.testmod()

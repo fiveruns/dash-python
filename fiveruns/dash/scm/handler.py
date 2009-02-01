@@ -1,6 +1,6 @@
 import os, logging
 
-logger = logging.getLogger('fiveruns_dash.scm')
+logger = logging.getLogger('fiveruns.dash.scm')
 
 class Handler(object):
 
@@ -44,7 +44,7 @@ def at(directory):
     logger.warn("Could not find SCM")
 
 def _grab(name, attrib):
-    return getattr(__import__('fiveruns_dash.scm.handlers.%s' % name, {}, {}, [attrib]), attrib)
+    return getattr(__import__('fiveruns.dash.scm.handlers.%s' % name, {}, {}, [attrib]), attrib)
 
 def ascend(matcher, dirname, name):
     """

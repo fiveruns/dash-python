@@ -5,7 +5,7 @@ import time, logging
 import exceptions
 from protocol import InfoPayload, DataPayload
 
-logger = logging.getLogger('fiveruns_dash.session')
+logger = logging.getLogger('fiveruns.dash.session')
 
 class Reporter(Thread):
   

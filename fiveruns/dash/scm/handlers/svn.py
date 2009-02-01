@@ -1,7 +1,7 @@
 import os, logging, time
-from fiveruns_dash.scm import handler
+from fiveruns.dash.scm import handler
 
-logger = logging.getLogger('fiveruns_dash.scm.handlers.svn')
+logger = logging.getLogger('fiveruns.dash.scm.handlers.svn')
 
 class Handler(handler.Handler):
 

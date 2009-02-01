@@ -1,6 +1,6 @@
 import metrics, logging
 
-logger = logging.getLogger('fiveruns_dash.recipes')
+logger = logging.getLogger('fiveruns.dash.recipes')
 
 registry = {}
 
@@ -61,7 +61,7 @@ class RecipeError(NameError):
 
 class UnknownRecipe(NameError):
   """
-  Raised when fiveruns_dash.recipes.find cannot find a requested recipe
+  Raised when fiveruns.dash.recipes.find cannot find a requested recipe
   """
 
   def __init__(self, name, url):
@@ -73,12 +73,12 @@ class UnknownRecipe(NameError):
     
 class AmbiguousRecipe(RecipeError):
   """
-  Raised when fiveruns_dash.recipes.find matches multiple requested recipes
+  Raised when fiveruns.dash.recipes.find matches multiple requested recipes
   """
 
 class DuplicateRecipe(RecipeError):
   """
-  Raised when fiveruns_dash.recipes.find cannot register a recipe due to a duplicate
+  Raised when fiveruns.dash.recipes.find cannot register a recipe due to a duplicate
   """    
 
   

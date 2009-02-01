@@ -1,8 +1,8 @@
 from __future__ import with_statement
 import os, logging, time
-from fiveruns_dash.scm import handler
+from fiveruns.dash.scm import handler
 
-logger = logging.getLogger('fiveruns_dash.scm.handlers.git')
+logger = logging.getLogger('fiveruns.dash.scm.handlers.git')
 
 class Handler(handler.Handler):
 

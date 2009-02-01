@@ -1,6 +1,6 @@
 import sys, traceback, logging
 
-logger = logging.getLogger('fiveruns_dash.exceptions')
+logger = logging.getLogger('fiveruns.dash.exceptions')
 
 class Recorder:
 

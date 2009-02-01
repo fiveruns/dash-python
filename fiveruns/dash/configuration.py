@@ -4,7 +4,7 @@ import aspects
 import metrics
 import recipes
 
-logger = logging.getLogger('fiveruns_dash.metrics')
+logger = logging.getLogger('fiveruns.dash.metrics')
 
 class Configuration(metrics.MetricSetting):
 

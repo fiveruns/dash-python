@@ -1,0 +1,16 @@
+h1. fiveruns.dash Package
+
+Provides basic access to the FiveRuns Dash service (http://dash.fiveruns.com) from Python.
+
+h2. Installation
+
+Standard installation via @setuptools@ (and @ez_setup.py@)
+
+  $ sudo python setup.py install
+
+h2. Requirements
+
+* "Python 2.5+":http://python.org (though not 3.0 compatible yet).
+* "python-aspects 1.3+":http://www.cs.tut.fi/~ask/aspects/index.shtml  
+    
+The examples (in examples/) may have additional requirements (ie, Twisted)

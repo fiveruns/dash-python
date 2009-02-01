@@ -40,10 +40,10 @@ factory.clients = []
 # Hit local server
 os.environ['DASH_UPDATE'] = 'http://localhost:3000'
 
-import fiveruns_dash
+import fiveruns.dash
 
 # Custom metrics for this app
-config = fiveruns_dash.configure(app_token = 'e7337bfd0b26a5708bbb4d8f552d25334c3473c8')
+config = fiveruns.dash.configure(app_token = 'e7337bfd0b26a5708bbb4d8f552d25334c3473c8')
 config.counter("messages", "Messages Processed", wrap = MyChat.message)
 config.absolute("connections", "Number of Connections", call = (len, factory.clients))
 
@@ -58,7 +58,7 @@ config.absolute("gc_objects", "Number of GC tracked objects",
   call = refcount, recipe_name = 'python', recipe_url = 'http://dash.fiveruns.com')
 
 # Start reporter
-session = fiveruns_dash.start(config)
+session = fiveruns.dash.start(config)
 
 # Tell Twisted to shut-down the reporter politely (Python threading very polite)
 reactor.addSystemEventTrigger('before', 'shutdown', session.stop)

@@ -3,7 +3,7 @@ from socket import gethostname
 
 import scm
 
-logger = logging.getLogger('fiveruns_dash.protocol')
+logger = logging.getLogger('fiveruns.dash.protocol')
 
 connections = {'http': httplib.HTTPConnection, 'https': httplib.HTTPSConnection}
 

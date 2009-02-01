@@ -2,7 +2,7 @@ from __future__ import with_statement
 from threading import RLock
 import aspects, time, logging, copy
 
-logger = logging.getLogger('fiveruns_dash.metrics')
+logger = logging.getLogger('fiveruns.dash.metrics')
 
 class MetricError(StandardError): pass
 
