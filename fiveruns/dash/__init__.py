@@ -1,20 +1,5 @@
 import sys, os, logging
 
-class NullLoggingHandler(logging.Handler):
-  def emit(self, record):
-    pass
-
-def _configure_logger():
-  logger = logging.getLogger("fiveruns.dash")
-  stream = logging.StreamHandler()
-  logger.addHandler(stream)
-  formatter = logging.Formatter("%(name)s [%(levelname)s] %(message)s")
-  stream.setFormatter(formatter)
-  logger.setLevel(logging.WARN)
-  return logger
-
-logger = _configure_logger()
-
 def start(config):
   from session import Reporter
   config.instrument()
@@ -27,7 +12,6 @@ def configure(*args, **kwargs):
   from configuration import Configuration
   """
   Returns a configuration with the arguments specified
-  from configuration import Configuration
   """
   return Configuration(*args, **kwargs)
 
@@ -53,3 +37,18 @@ def recipe(name, url):
   """
   from recipes import Recipe
   return Recipe(name, url)
+  
+class NullLoggingHandler(logging.Handler):
+  def emit(self, record):
+    pass
+
+def _configure_logger():
+  logger = logging.getLogger("fiveruns.dash")
+  stream = logging.StreamHandler()
+  logger.addHandler(stream)
+  formatter = logging.Formatter("%(name)s [%(levelname)s] %(message)s")
+  stream.setFormatter(formatter)
+  logger.setLevel(logging.WARN)
+  return logger
+
+logger = _configure_logger()
