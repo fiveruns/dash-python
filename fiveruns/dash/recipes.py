@@ -1,7 +1,7 @@
-import metrics, logging
+import metrics
+import logging
 
 logger = logging.getLogger('fiveruns.dash.recipes')
-
 registry = {}
 
 class Recipe(metrics.MetricSetting):

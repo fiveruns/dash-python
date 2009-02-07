@@ -1,6 +1,13 @@
-import os, sys, httplib, mimetypes, simplejson, urlparse, zlib, logging
+import httplib
+import logging
+import mimetypes
+import os
+import sys
+import urlparse
+import zlib
 from socket import gethostname
 
+import simplejson
 import scm
 
 logger = logging.getLogger('fiveruns.dash.protocol')

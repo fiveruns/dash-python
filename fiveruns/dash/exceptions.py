@@ -1,4 +1,6 @@
-import sys, traceback, logging
+import logging
+import sys
+import traceback
 
 logger = logging.getLogger('fiveruns.dash.exceptions')
 
