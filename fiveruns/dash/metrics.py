@@ -1,9 +1,8 @@
-
+from __future__ import with_statement
+from threading import RLock
 import time
 import logging
 import copy
-from __future__ import with_statement
-from threading import RLock
 
 import aspects
 
