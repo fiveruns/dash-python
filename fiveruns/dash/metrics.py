@@ -62,7 +62,7 @@ class Metric(object):
                 logger.debug("Getting data for field `%s'" % field)
                 for record in data.get((field, self.recipe_name, self.recipe_url), {'values':[]})['values']:
                     logger.debug("Data is `%s'" % record)
-                    if not sets.has_key(record['context']):
+                    if record['content'] not in sets:
                         sets[record['context']] = {}
                     sets[record['context']][field] = record['value']
             logger.debug("Sets is %s" % sets)
@@ -84,7 +84,7 @@ class Metric(object):
         return self._snapshot()
 
     def _container_for_context(self, context):
-        if self.containers.has_key(context):
+        if context in self.containers:
             return self.containers[context]
         else:
             container =  self._default_container_for(context)
@@ -143,12 +143,12 @@ class CounterMetric(Metric):
     def values(self):
         if self.virtual:
             return True
-        if self.options.has_key('call'):
+        if 'call' in self.options:
             self._record(self.options['call'])
         return self._snapshot()
 
     def _validate(self):
-        if not (self.options.has_key('wrap') or self.options.has_key('call')):
+        if 'wrap' not in self.options and 'call' not in self.options:
             raise MetricError("Required `wrap' or `sources' option")
 
     def _instrument(self):
@@ -181,7 +181,7 @@ class TimeMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if not (self.options.has_key('wrap')):
+        if 'wrap' not in self.options:
             raise MetricError("Required `wrap'")
 
     def _instrument(self):
@@ -213,7 +213,7 @@ class AbsoluteMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if not (self.options.has_key('call')):
+        if 'call' not in self.options:
             raise MetricError("Required `call'")
 
     def values(self):
@@ -228,7 +228,7 @@ class PercentageMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if not (self.options.has_key('call')):
+        if 'call' not in self.options:
             raise MetricError("Required `call'")
 
     def values(self):

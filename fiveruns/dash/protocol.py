@@ -45,7 +45,7 @@ class Payload(object):
         return False # TODO: HTTP
 
     def url(self):
-        if os.environ.has_key('DASH_UPDATE'):
+        if 'DASH_UPDATE' in os.environ:
             return os.environ['DASH_UPDATE']
         else:
             return 'https://dash-collector.fiveruns.com'

@@ -13,7 +13,7 @@ class Recorder:
     def record(self, info, sample = {}):
         exc = self._extract(info)
         key = (exc['name'], exc['backtrace'])
-        if self.data.has_key(key):
+        if key in self.data:
             self.data[key]['total'] += 1
         else:
             exc.update({"total": 1, "sample": self._flatten(sample)})

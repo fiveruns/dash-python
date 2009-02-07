@@ -21,7 +21,7 @@ class Recipe(metrics.MetricSetting):
     def _register(self):
         "Register this recipe"
         key = (self.name, self.url)
-        if registry.has_key(key):
+        if key in registry:
             raise DuplicateRecipe(self.name, self.url)
         else:
             registry[key] = self
@@ -36,7 +36,7 @@ class Recipe(metrics.MetricSetting):
 
 def find(name, url):
     "Find a registered recipe"
-    if registry.has_key((name, url)):
+    if (name, url) in registry:
         return registry[(name, url)]
     elif not url:
         matching = [r for k, r in registry.iteritems() if k[0] == name]
