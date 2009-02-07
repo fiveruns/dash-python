@@ -14,16 +14,25 @@ class Handler(handler.Handler):
         git = self._import()
         if not git:
             return False
-        repo = git.Repo.init_bare(self.match)
-        head = repo.commits('HEAD')
-        if not head or len(head) < 1:
+
+        repo = git.Repo(self.match)
+        # check to see there are any branch heads at all
+        if not repo.heads:
+            head = None
+        else:
+            head = repo.commits('HEAD')
+
+        # either there were no repo heads, or
+        # the commit list is empty
+        if not head:
             logger.warn("Could not retrieve Git HEAD info")
             return False
+
         tip = head[0]
         self.data.update({
-          'scm_type': 'git',
-          "scm_revision": tip.id,
-          "scm_time": str(int(time.mktime(tip.authored_date)))
+            'scm_type': 'git',
+            "scm_revision": tip.id,
+            "scm_time": str(int(time.mktime(tip.authored_date)))
         })
         scm_url = self._find_origin(repo)
         if scm_url:
