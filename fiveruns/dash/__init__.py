@@ -1,7 +1,12 @@
-import sys, os, logging
+import logging
+import os
+import sys
+
+from configuration import Configuration
+from recipes import Recipe
+from session import Reporter
 
 def start(config):
-    from session import Reporter
     config.instrument()
     reporter = Reporter(config)
     config.reporter = reporter
@@ -9,7 +14,6 @@ def start(config):
     return reporter
     
 def configure(*args, **kwargs):
-    from configuration import Configuration
     """
     Returns a configuration with the arguments specified
     """
@@ -35,7 +39,6 @@ def recipe(name, url):
         ...
     DuplicateRecipe: `foo' defined for `http://example.com'
     """
-    from recipes import Recipe
     return Recipe(name, url)
     
 class NullLoggingHandler(logging.Handler):
