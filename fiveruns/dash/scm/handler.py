@@ -31,20 +31,20 @@ def handlers():
     Returns a list of all the SCM handlers that are available.
     """
     return [f[:-3] for f in os.listdir(os.path.join(os.path.dirname(__file__), 'handlers'))
-            if not f.startswith('_') and f.endswith('.py')]
+            if not f.startswith('__') and f.endswith('.py')]
 
 def at(directory):
     for name in handlers():
         match = _grab(name, 'matches')(directory)
         if match:
-            logger.info("Found SCM: %s" % name)
+            logger.info("Found SCM: %s" % name[1:])
             handler = _grab(name, 'Handler')(match)
             if handler.collected:
                 return handler
     logger.warn("Could not find SCM")
 
 def _grab(name, attrib):
-    return getattr(__import__('fiveruns.dash.scm.handlers._%s' % name, {}, {}, [attrib]), attrib)
+    return getattr(__import__('fiveruns.dash.scm.handlers.%s' % name, {}, {}, [attrib]), attrib)
 
 def ascend(matcher, dirname, name):
     """
