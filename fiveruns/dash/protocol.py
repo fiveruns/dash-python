@@ -124,7 +124,7 @@ class DataPayload(Payload):
     def _extract_data(self):
         data = {}
         real_data = {}
-        real_metrics = [(name, metric) for name, metric in  self.config.metrics.iteritems() if not metric.virtual]
+        real_metrics = [(name, metric) for name, metric in self.config.metrics.iteritems() if not metric.virtual]
         virtual_metrics = [(name, metric) for name, metric in  self.config.metrics.iteritems() if metric.virtual]
         for name, metric in real_metrics:
             real_data[name] = self._envelope(metric, metric.values())
@@ -149,14 +149,17 @@ class DataPayload(Payload):
             "values": values }
 
     
-class PingPayload(Payload):  
-  def path(self): return "/apps/%s/ping" % self.config.app_token
+class PingPayload(Payload):
+    def path(self):
+        return "/apps/%s/ping" % self.config.app_token
   
-class TracePayload(Payload):  
-  def path(self): return "/apps/%s/traces.json" % self.config.app_token
+class TracePayload(Payload):
+    def path(self):
+        return "/apps/%s/traces.json" % self.config.app_token
   
-class ExceptionsPayload(Payload):  
-  def path(self): return "/apps/%s/exceptions" % self.config.app_token
+class ExceptionsPayload(Payload):
+    def path(self):
+        return "/apps/%s/exceptions" % self.config.app_token
   
 def send(urlparts, selector, fields, files):
     content_type, body = encode(fields, files)
@@ -164,9 +167,9 @@ def send(urlparts, selector, fields, files):
     connection = connector(urlparts.netloc)
     headers = {'User-Agent': 'Python','Content-Type': content_type}
     try:
-      connection.request('POST', selector, body, headers)
+        connection.request('POST', selector, body, headers)
     except:
-      return [False, sys.exc_info()[1], None]      
+        return [False, sys.exc_info()[1], None]      
     res = connection.getresponse()
     return res.status, res.reason, res.read()
     
@@ -197,5 +200,4 @@ def encode(fields, files):
     return content_type, body
 
 def _content_type(filename):
-  return mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-  
+    return mimetypes.guess_type(filename)[0] or 'application/octet-stream'

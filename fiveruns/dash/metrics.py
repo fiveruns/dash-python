@@ -4,7 +4,8 @@ import aspects, time, logging, copy
 
 logger = logging.getLogger('fiveruns.dash.metrics')
 
-class MetricError(StandardError): pass
+class MetricError(StandardError):
+    pass
 
 class Calculation(object):
     def __init__(self, operation, *fields):
@@ -34,8 +35,10 @@ class Metric(object):
         logger.debug("Defined %s metric `%s' (recipe `%s' for `%s')" % (self.data_type, self.name, self.recipe_name, self.recipe_url))
 
     def virtual(self):
-        if self.calculation: return True
-        else: return False
+        if self.calculation:
+            return True
+        else:
+            return False
     virtual = property(virtual)
 
     def calculate(self, data):
@@ -45,7 +48,8 @@ class Metric(object):
         Note: Does not support time metrics
         """
         logger.debug("Preparing to calculate metric %s from data:\n%s" % (self.name, data))
-        if not self.virtual: return []
+        if not self.virtual:
+            return []
         else:
             results = []
             sets = {}
@@ -98,7 +102,8 @@ class Metric(object):
         result['data_type'] = self._data_type()
         return result
 
-    def _instrument(self): pass
+    def _instrument(self):
+        pass
           
     def _record(self, func):
         """
@@ -131,13 +136,13 @@ class Metric(object):
 class CounterMetric(Metric):
 
     def values(self):
-        if self.virtual: return True
+        if self.virtual:
+            return True
         if self.options.has_key('call'):
             self._record(self.options['call'])
         return self._snapshot()
 
     def _validate(self):
-
         if not (self.options.has_key('wrap') or self.options.has_key('call')):
             raise MetricError("Required `wrap' or `sources' option")
 
@@ -159,7 +164,8 @@ class CounterMetric(Metric):
             container["value"] += 1
             yield aspects.proceed
 
-    def _data_type(self): return 'counter'
+    def _data_type(self):
+        return 'counter'
   
         
 class TimeMetric(Metric):
@@ -168,7 +174,8 @@ class TimeMetric(Metric):
         return {"context" : context, "invocations" : 0, "value" : 0}
 
     def _validate(self):
-        if self.virtual: return True
+        if self.virtual:
+            return True
         if not (self.options.has_key('wrap')):
             raise MetricError("Required `wrap'")
 
@@ -193,12 +200,14 @@ class TimeMetric(Metric):
             container["value"] += value
             container["invocations"] += 1
 
-    def _data_type(self): return 'time'
+    def _data_type(self):
+        return 'time'
 
 class AbsoluteMetric(Metric):
 
     def _validate(self):
-        if self.virtual: return True
+        if self.virtual:
+            return True
         if not (self.options.has_key('call')):
             raise MetricError("Required `call'")
 
@@ -206,12 +215,14 @@ class AbsoluteMetric(Metric):
         self._record(self.options['call'])
         return self._snapshot()
 
-    def _data_type(self): return 'absolute'
+    def _data_type(self):
+        return 'absolute'
 
 class PercentageMetric(Metric):
 
     def _validate(self):
-        if self.virtual: return True
+        if self.virtual:
+            return True
         if not (self.options.has_key('call')):
             raise MetricError("Required `call'")
 
@@ -219,7 +230,8 @@ class PercentageMetric(Metric):
         self._record(self.options['call'])
         return self._snapshot()
 
-    def _data_type(self): return 'percentage'
+    def _data_type(self):
+        return 'percentage'
 
 class MetricSetting(object):
 
