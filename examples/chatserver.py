@@ -1,11 +1,17 @@
 # Requires the 
 
-import gc, os, sys,signal
+import gc
+import os
+import signal
+import sys
 
+from twisted.application import service, internet
+from twisted.internet import protocol
 from twisted.internet import reactor
 from twisted.protocols import basic
 
 sys.path.append('..')
+import fiveruns.dash
 
 class MyChat(basic.LineReceiver):
   
@@ -26,9 +32,6 @@ class MyChat(basic.LineReceiver):
         self.transport.write('> ' + message + '\n')
 
 
-from twisted.internet import protocol
-from twisted.application import service, internet
-
 factory = protocol.ServerFactory()
 factory.protocol = MyChat
 factory.clients = []
@@ -40,22 +43,21 @@ factory.clients = []
 # Hit local server
 os.environ['DASH_UPDATE'] = 'http://localhost:3000'
 
-import fiveruns.dash
 
 # Custom metrics for this app
-config = fiveruns.dash.configure(app_token = 'e7337bfd0b26a5708bbb4d8f552d25334c3473c8')
-config.counter("messages", "Messages Processed", wrap = MyChat.message)
-config.absolute("connections", "Number of Connections", call = (len, factory.clients))
+config = fiveruns.dash.configure(app_token='e7337bfd0b26a5708bbb4d8f552d25334c3473c8')
+config.counter("messages", "Messages Processed", wrap=MyChat.message)
+config.absolute("connections", "Number of Connections", call=(len, factory.clients))
 
 # Beginnings of the 'python' recipe; for now we just add a metric or two
 # directly to the config vs creating a real recipe object (TODO)
 
 def refcount():
-  ''' Get number of system refcounts total. '''
-  return len(gc.get_objects())
+    ''' Get number of system refcounts total. '''
+    return len(gc.get_objects())
   
 config.absolute("gc_objects", "Number of GC tracked objects",
-  call = refcount, recipe_name = 'python', recipe_url = 'http://dash.fiveruns.com')
+    call=refcount, recipe_name='python', recipe_url='http://dash.fiveruns.com')
 
 # Start reporter
 session = fiveruns.dash.start(config)
