@@ -1,5 +1,9 @@
 from __future__ import with_statement
-import os, logging, time
+
+import logging
+import os
+import time
+
 from fiveruns.dash.scm import handler
 
 logger = logging.getLogger('fiveruns.dash.scm.handlers.git')
@@ -8,7 +12,8 @@ class Handler(handler.Handler):
 
     def collect(self):
         git = self._import()
-        if not git: return False
+        if not git:
+            return False
         repo = git.Repo.init_bare(self.match)
         head = repo.commits('HEAD')
         if not head or len(head) < 1:
@@ -40,11 +45,18 @@ class Handler(handler.Handler):
         
 
     def _import(self):
+        """Attempt to import GitPython
+        """
         try:
             import git_python
             return git_python
-        except:
-            self.missing('git_python')
+        except ImportError:
+            try:
+                import git
+                return git
+            except ImportError:
+                self.missing('git_python')
+                return False
 
 def matches(directory):
     matcher = lambda dir, fn: os.path.isdir(os.path.join(dir, '.git'))

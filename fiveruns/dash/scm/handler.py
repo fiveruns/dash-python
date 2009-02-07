@@ -44,7 +44,7 @@ def at(directory):
     logger.warn("Could not find SCM")
 
 def _grab(name, attrib):
-    return getattr(__import__('fiveruns.dash.scm.handlers.%s' % name, {}, {}, [attrib]), attrib)
+    return getattr(__import__('fiveruns.dash.scm.handlers._%s' % name, {}, {}, [attrib]), attrib)
 
 def ascend(matcher, dirname, name):
     """

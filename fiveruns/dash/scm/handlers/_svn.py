@@ -1,4 +1,6 @@
-import os, logging, time
+import logging
+import os
+import time
 from fiveruns.dash.scm import handler
 
 logger = logging.getLogger('fiveruns.dash.scm.handlers.svn')
@@ -14,7 +16,7 @@ class Handler(handler.Handler):
 
     def _check_info(self):
         try:
-            fn =  os.popen("svn info '%s'" % self.match)
+            fn = os.popen("svn info '%s'" % self.match)
         except:
             logger.warn("Could not access `svn info,` is `svn` in PATH?")
         mapping = {'URL': 'scm_url', 'Revision': 'scm_revision'}
