@@ -118,14 +118,14 @@ class Metric(object):
         if isinstance(receiver, tuple):
             receiver = func[0]
             args = func[1:]
-            result = receiver(*args)
-            with self.lock:
-                if isinstance(result, dict):
-                    self.containers.update(result)
-                else:
-                    # TODO: Support context_finder & pre-defined contexts
-                    container = self._container_for_context(None)
-                    container["value"] = result
+        result = receiver(*args)
+        with self.lock:
+            if isinstance(result, dict):
+                self.containers.update(result)
+            else:
+                # TODO: Support context_finder & pre-defined contexts
+                container = self._container_for_context(None)
+                container["value"] = result
       
     def _snapshot(self):
         """
