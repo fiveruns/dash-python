@@ -12,8 +12,14 @@ h2. Requirements
 
 * "Python 2.5+":http://python.org (though not 3.0 compatible yet).
 * "python-aspects 1.3+":http://www.cs.tut.fi/~ask/aspects/index.shtml  
-    
-The examples (in examples/) may have additional requirements (ie, Twisted)
+
+Extra dependencies:
+* To track deployments of Git repositories, "GitPython":http://pypi.python.org/pypi/GitPython
+* The examples (in examples/) may have additional requirements (ie, Twisted)
+
+h2. Support
+
+Report issues and find documentation at http://support.fiveruns.com
 
 h2. License
 
