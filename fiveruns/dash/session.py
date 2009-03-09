@@ -31,6 +31,7 @@ class Reporter(Thread):
             if self._is_ready():
                 self._report_data()
         logger.debug("Shut down")
+        self._report_data()
 
     def add_exception(self, info, sample={}):
         self.exception_recorder.record(info, sample)
