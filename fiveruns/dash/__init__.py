@@ -45,13 +45,4 @@ class NullLoggingHandler(logging.Handler):
     def emit(self, record):
         pass
 
-def _configure_logger():
-    logger = logging.getLogger("fiveruns.dash")
-    stream = logging.StreamHandler()
-    logger.addHandler(stream)
-    formatter = logging.Formatter("%(name)s [%(levelname)s] %(message)s")
-    stream.setFormatter(formatter)
-    logger.setLevel(logging.WARN)
-    return logger
-
-logger = _configure_logger()
+logger = logging.getLogger("fiveruns.dash")
