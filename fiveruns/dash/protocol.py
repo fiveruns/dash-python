@@ -25,12 +25,14 @@ class Payload(object):
             logger.error("Invalid payload format")
             logger.debug(self.data)
             return False
-        logger.debug("Sending to %s%s\n%s", self.url(), self.path(), self.data)
+        extra_params = self._extra_params()
+        logger.debug("Sending to %s%s\n%s\n%s", self.url(), self.path(),
+                     extra_params, self.data)
         urlparts = urlparse.urlparse(self.url())
         (status, reason, body) = send(
           urlparts,
           self.path(),
-          self._extra_params(),
+          extra_params,
           [('file', 'data.json.gz', self._compressed())]
         )
         if status == 201:
