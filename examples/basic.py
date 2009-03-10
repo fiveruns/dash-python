@@ -35,7 +35,6 @@ class Foo(object):
         raise Exception("New Exception")
 
 if len(sys.argv) < 2:
-    print sys.argv
     sys.exit("No app token given")
 
 recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
