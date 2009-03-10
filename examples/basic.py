@@ -9,9 +9,7 @@ sys.path.insert(0, '..')
 
 import fiveruns.dash
 
-logger = logging.getLogger('fiveruns.dash')
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
+logging.basicConfig(level=logging.DEBUG)
 
 class Foo(object):
     
