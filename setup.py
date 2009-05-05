@@ -1,17 +1,17 @@
-from ez_setup import use_setuptools
-use_setuptools()
-
 from setuptools import setup, find_packages
-import fiveruns.dash.version
+#import fiveruns.dash.version
 
 setup(
   name = "fiveruns.dash",
-  version = ".".join(str(s) for s in fiveruns.dash.version.info),
+  #I like the idea for getting the version this way, but hard to do after moving the fiveruns module into src/
+  #version = ".".join(str(s) for s in fiveruns.dash.version.info),
+  version = "0.3.2",
   description = "FiveRuns Dash base library for Python",
   author = "FiveRuns Development Team",
   author_email = "dev@fiveruns.com",
   url = "http://dash.fiveruns.com",
-  packages = find_packages(exclude = "tests"),
+  packages = find_packages('src', exclude = "tests"),
+  package_dir = {'': 'src'},
   install_requires = ['simplejson', 'python-aspects >= 1.3'],
   license = 'MIT',
   dependency_links = [
