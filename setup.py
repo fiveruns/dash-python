@@ -21,7 +21,8 @@ setup(
   namespace_packages = ['fiveruns'],
   extras_require = {
     'git': ['GitPython'],
-    'examples':  ["Twisted"]
+    'examples':  ["Twisted"],
+    'test': ['Mock']
   },
   keywords = "monitoring performance production metrics logging"
 )
