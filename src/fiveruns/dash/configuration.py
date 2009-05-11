@@ -11,7 +11,9 @@ import recipes
 logger = logging.getLogger('fiveruns.dash.metrics')
 
 class Configuration(metrics.MetricSetting):
-
+    """
+    Configuration parameters for the application being monitored.
+    """
     def __init__(self, **options):
         super(Configuration, self).__init__()
         self.app_token = None

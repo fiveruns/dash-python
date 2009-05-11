@@ -20,6 +20,9 @@ class Payload(object):
         self.config = config
         self.data = self._extract_data()
 
+    def _extract_data(self):
+        raise NotImplementedError
+
     def send(self):
         if not self.valid():
             logger.error("Invalid payload format")
