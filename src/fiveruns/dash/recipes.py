@@ -5,6 +5,11 @@ logger = logging.getLogger('fiveruns.dash.recipes')
 registry = {}
 
 class Recipe(metrics.MetricSetting):
+    """
+    A recipe is a collection of metrics that registers itself on instantiation. A DuplicateRecipe execption is raise if two recipes with the same name and URL are created.
+
+    For usage, see fiveruns.dash.recipe function.
+    """
 
     def __init__(self, name, url):
         super(Recipe, self).__init__()
@@ -35,7 +40,28 @@ class Recipe(metrics.MetricSetting):
         super(Recipe, self)._replay_recipe(recipe)
 
 def find(name, url):
-    "Find a registered recipe"
+    """
+    Find a registered recipe
+
+    >>> recipe1 = Recipe('foo', 'http://example.com')
+    >>> find('foo', 'http://example.com') == recipe1
+    True
+
+    Ambiguous Recipe
+
+    >>> recipe2 = Recipe('foo', 'http://fiveruns.com')
+    >>> find('foo', '')
+    Traceback (most recent call last):
+        ...
+    AmbiguousRecipe: `foo' defined for `http://example.com, http://fiveruns.com'
+    
+    Unknown Recipe
+
+    >>> find('bar', 'http://foobar.com')
+    Traceback (most recent call last):
+        ...
+    UnknownRecipe: `bar' for `http://foobar.com'
+    """
     if (name, url) in registry:
         return registry[(name, url)]
     elif not url:
@@ -44,7 +70,7 @@ def find(name, url):
         if number == 1:
             return matching[0]
         elif number > 1:
-            raise AmbiguousRecipe(name, [u for (n, u) in matching])    
+            raise AmbiguousRecipe(name, ', '.join([k[1] for k, r in registry.iteritems() if k[0] == name]))    
         else:
             raise UnknownRecipe(name, url)
     else:
@@ -82,3 +108,7 @@ class DuplicateRecipe(RecipeError):
     Raised when fiveruns.dash.recipes.find cannot register a recipe due to a duplicate
     """        
     pass
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
