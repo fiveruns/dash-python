@@ -20,9 +20,6 @@ class Payload(object):
         self.config = config
         self.data = self._extract_data()
 
-    def _extract_data(self):
-        raise NotImplementedError
-
     def send(self):
         if not self.valid():
             logger.error("Invalid payload format")
@@ -41,7 +38,7 @@ class Payload(object):
         if status == 201:
             self._succeeded(body)
             return True
-        elif status in range(400, 499):
+        elif status in xrange(400, 500):
             print body
             self._failed(reason)
         else:
@@ -88,6 +85,11 @@ class Payload(object):
     def _serialize(self):
         return simplejson.dumps(self.data)
 
+    def _extract_data(self):
+        raise NotImplementedError
+
+    def _path(self):
+        raise NotImplementedError
 
 class InfoPayload(Payload):
 
