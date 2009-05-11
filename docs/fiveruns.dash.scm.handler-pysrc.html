@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>fiveruns.dash.scm.handler</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="fiveruns-module.html">Package&nbsp;fiveruns</a> ::
+        <a href="fiveruns.dash-module.html">Package&nbsp;dash</a> ::
+        <a href="fiveruns.dash.scm-module.html">Package&nbsp;scm</a> ::
+        Module&nbsp;handler
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="fiveruns.dash.scm.handler-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="fiveruns.dash.scm.handler-module.html">Module fiveruns.dash.scm.handler</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">os</tt><tt class="py-op">,</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable fiveruns.dash.configuration.logger=fiveruns.dash.configuration-module.html#logger,Variable fiveruns.dash.exceptions.logger=fiveruns.dash.exceptions-module.html#logger,Variable fiveruns.dash.logger=fiveruns.dash-module.html#logger,Variable fiveruns.dash.metrics.logger=fiveruns.dash.metrics-module.html#logger,Variable fiveruns.dash.protocol.logger=fiveruns.dash.protocol-module.html#logger,Variable fiveruns.dash.recipes.logger=fiveruns.dash.recipes-module.html#logger,Variable fiveruns.dash.scm.handler.logger=fiveruns.dash.scm.handler-module.html#logger,Variable fiveruns.dash.scm.handlers._git.logger=fiveruns.dash.scm.handlers._git-module.html#logger,Variable fiveruns.dash.scm.handlers._svn.logger=fiveruns.dash.scm.handlers._svn-module.html#logger,Variable fiveruns.dash.session.logger=fiveruns.dash.session-module.html#logger"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-0', 'logger', 'link-0');">logger</a></tt> <tt class="py-op">=</tt> <tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">getLogger</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.scm'</tt><tt class="py-op">)</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"> </tt>
+<a name="Handler"></a><div id="Handler-def"><a name="L5"></a><tt class="py-lineno"> 5</tt> <a class="py-toggle" href="#" id="Handler-toggle" onclick="return toggle('Handler');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html">Handler</a><tt class="py-op">(</tt><tt class="py-base-class">object</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Handler-expanded"><a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="Handler.__init__"></a><div id="Handler.__init__-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="Handler.__init__-toggle" onclick="return toggle('Handler.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">match</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.__init__-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">match</tt> <tt class="py-op">=</tt> <tt class="py-name">match</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">collected</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Method fiveruns.dash.scm.handler.Handler.collect()=fiveruns.dash.scm.handler.Handler-class.html#collect,Method fiveruns.dash.scm.handlers._git.Handler.collect()=fiveruns.dash.scm.handlers._git.Handler-class.html#collect,Method fiveruns.dash.scm.handlers._svn.Handler.collect()=fiveruns.dash.scm.handlers._svn.Handler-class.html#collect"><a title="fiveruns.dash.scm.handler.Handler.collect
+fiveruns.dash.scm.handlers._git.Handler.collect
+fiveruns.dash.scm.handlers._svn.Handler.collect" class="py-name" href="#" onclick="return doclink('link-1', 'collect', 'link-1');">collect</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="Handler.collect"></a><div id="Handler.collect-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="Handler.collect-toggle" onclick="return toggle('Handler.collect');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html#collect">collect</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.collect-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.collect-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">        Collect the data for this SCM</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-docstring">        Needs to be defined in each handler or an exception is raised.</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">raise</tt> <tt class="py-name">NotImplementedError</tt><tt class="py-op">(</tt><tt class="py-string">"Abstract"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="Handler.missing"></a><div id="Handler.missing-def"><a name="L20"></a><tt class="py-lineno">20</tt> <a class="py-toggle" href="#" id="Handler.missing-toggle" onclick="return toggle('Handler.missing');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html#missing">missing</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">pkg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.missing-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.missing-expanded"><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">        <tt id="link-2" class="py-name"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-2', 'logger', 'link-0');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">warn</tt><tt class="py-op">(</tt><tt class="py-string">"Missing `%s' package.  Unable to report SCM details"</tt> <tt class="py-op">%</tt> <tt class="py-name">pkg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line"> </tt>
+<a name="Handler.__getitem__"></a><div id="Handler.__getitem__-def"><a name="L23"></a><tt class="py-lineno">23</tt> <a class="py-toggle" href="#" id="Handler.__getitem__-toggle" onclick="return toggle('Handler.__getitem__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html#__getitem__">__getitem__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">key</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.__getitem__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.__getitem__-expanded"><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-name">key</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"> </tt>
+<a name="Handler.keys"></a><div id="Handler.keys-def"><a name="L26"></a><tt class="py-lineno">26</tt> <a class="py-toggle" href="#" id="Handler.keys-toggle" onclick="return toggle('Handler.keys');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler.Handler-class.html#keys">keys</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.keys-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.keys-expanded"><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method fiveruns.dash.scm.handler.Handler.keys()=fiveruns.dash.scm.handler.Handler-class.html#keys"><a title="fiveruns.dash.scm.handler.Handler.keys" class="py-name" href="#" onclick="return doclink('link-3', 'keys', 'link-3');">keys</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line"> </tt>
+<a name="handlers"></a><div id="handlers-def"><a name="L29"></a><tt class="py-lineno">29</tt> <a class="py-toggle" href="#" id="handlers-toggle" onclick="return toggle('handlers');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler-module.html#handlers">handlers</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="handlers-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="handlers-expanded"><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"><tt class="py-docstring">    Returns a list of all the SCM handlers that are available.</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-op">[</tt><tt class="py-name">f</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-op">-</tt><tt class="py-number">3</tt><tt class="py-op">]</tt> <tt class="py-keyword">for</tt> <tt class="py-name">f</tt> <tt class="py-keyword">in</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">listdir</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method fiveruns.dash.protocol.DataPayload.path()=fiveruns.dash.protocol.DataPayload-class.html#path,Method fiveruns.dash.protocol.ExceptionsPayload.path()=fiveruns.dash.protocol.ExceptionsPayload-class.html#path,Method fiveruns.dash.protocol.InfoPayload.path()=fiveruns.dash.protocol.InfoPayload-class.html#path,Method fiveruns.dash.protocol.PingPayload.path()=fiveruns.dash.protocol.PingPayload-class.html#path,Method fiveruns.dash.protocol.TracePayload.path()=fiveruns.dash.protocol.TracePayload-class.html#path"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-4', 'path', 'link-4');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-5', 'path', 'link-4');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">dirname</tt><tt class="py-op">(</tt><tt class="py-name">__file__</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'handlers'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">'__'</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">endswith</tt><tt class="py-op">(</tt><tt class="py-string">'.py'</tt><tt class="py-op">)</tt><tt class="py-op">]</tt> </tt>
+</div><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"> </tt>
+<a name="at"></a><div id="at-def"><a name="L36"></a><tt class="py-lineno">36</tt> <a class="py-toggle" href="#" id="at-toggle" onclick="return toggle('at');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler-module.html#at">at</a><tt class="py-op">(</tt><tt class="py-param">directory</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="at-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="at-expanded"><a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">    <tt class="py-keyword">for</tt> <tt class="py-name">name</tt> <tt class="py-keyword">in</tt> <tt id="link-6" class="py-name" targets="Function fiveruns.dash.scm.handler.handlers()=fiveruns.dash.scm.handler-module.html#handlers,Package fiveruns.dash.scm.handlers=fiveruns.dash.scm.handlers-module.html"><a title="fiveruns.dash.scm.handler.handlers
+fiveruns.dash.scm.handlers" class="py-name" href="#" onclick="return doclink('link-6', 'handlers', 'link-6');">handlers</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-name">match</tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name" targets="Function fiveruns.dash.scm.handler._grab()=fiveruns.dash.scm.handler-module.html#_grab"><a title="fiveruns.dash.scm.handler._grab" class="py-name" href="#" onclick="return doclink('link-7', '_grab', 'link-7');">_grab</a></tt><tt class="py-op">(</tt><tt class="py-name">name</tt><tt class="py-op">,</tt> <tt class="py-string">'matches'</tt><tt class="py-op">)</tt><tt class="py-op">(</tt><tt class="py-name">directory</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">match</tt><tt class="py-op">:</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            <tt id="link-8" class="py-name"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-8', 'logger', 'link-0');">logger</a></tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Variable fiveruns.dash.version.info=fiveruns.dash.version-module.html#info"><a title="fiveruns.dash.version.info" class="py-name" href="#" onclick="return doclink('link-9', 'info', 'link-9');">info</a></tt><tt class="py-op">(</tt><tt class="py-string">"Found SCM: %s"</tt> <tt class="py-op">%</tt> <tt class="py-name">name</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">            <tt id="link-10" class="py-name" targets="Module fiveruns.dash.scm.handler=fiveruns.dash.scm.handler-module.html"><a title="fiveruns.dash.scm.handler" class="py-name" href="#" onclick="return doclink('link-10', 'handler', 'link-10');">handler</a></tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name"><a title="fiveruns.dash.scm.handler._grab" class="py-name" href="#" onclick="return doclink('link-11', '_grab', 'link-7');">_grab</a></tt><tt class="py-op">(</tt><tt class="py-name">name</tt><tt class="py-op">,</tt> <tt class="py-string">'Handler'</tt><tt class="py-op">)</tt><tt class="py-op">(</tt><tt class="py-name">match</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">            <tt class="py-keyword">if</tt> <tt id="link-12" class="py-name"><a title="fiveruns.dash.scm.handler" class="py-name" href="#" onclick="return doclink('link-12', 'handler', 'link-10');">handler</a></tt><tt class="py-op">.</tt><tt class="py-name">collected</tt><tt class="py-op">:</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt id="link-13" class="py-name"><a title="fiveruns.dash.scm.handler" class="py-name" href="#" onclick="return doclink('link-13', 'handler', 'link-10');">handler</a></tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">    <tt id="link-14" class="py-name"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-14', 'logger', 'link-0');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">warn</tt><tt class="py-op">(</tt><tt class="py-string">"Could not find SCM"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
+<a name="_grab"></a><div id="_grab-def"><a name="L46"></a><tt class="py-lineno">46</tt> <a class="py-toggle" href="#" id="_grab-toggle" onclick="return toggle('_grab');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler-module.html#_grab">_grab</a><tt class="py-op">(</tt><tt class="py-param">name</tt><tt class="py-op">,</tt> <tt class="py-param">attrib</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="_grab-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="_grab-expanded"><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">getattr</tt><tt class="py-op">(</tt><tt class="py-name">__import__</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.scm.handlers.%s'</tt> <tt class="py-op">%</tt> <tt class="py-name">name</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-name">attrib</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">attrib</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line"> </tt>
+<a name="ascend"></a><div id="ascend-def"><a name="L49"></a><tt class="py-lineno">49</tt> <a class="py-toggle" href="#" id="ascend-toggle" onclick="return toggle('ascend');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handler-module.html#ascend">ascend</a><tt class="py-op">(</tt><tt class="py-param">matcher</tt><tt class="py-op">,</tt> <tt class="py-param">dirname</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="ascend-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="ascend-expanded"><a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"><tt class="py-docstring">    Walk up a directory structure looking for a matching location</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">matcher</tt><tt class="py-op">(</tt><tt class="py-name">dirname</tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">dirname</tt> </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">dirname</tt> <tt class="py-keyword">in</tt> <tt class="py-op">(</tt><tt class="py-string">'/'</tt><tt class="py-op">,</tt> <tt class="py-string">''</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt id="link-15" class="py-name" targets="Function fiveruns.dash.scm.handler.ascend()=fiveruns.dash.scm.handler-module.html#ascend"><a title="fiveruns.dash.scm.handler.ascend" class="py-name" href="#" onclick="return doclink('link-15', 'ascend', 'link-15');">ascend</a></tt><tt class="py-op">(</tt><tt class="py-name">matcher</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-16', 'path', 'link-4');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-name">dirname</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun May 10 21:06:55 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

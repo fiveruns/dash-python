@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>fiveruns.dash.scm.handlers._git</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="fiveruns-module.html">Package&nbsp;fiveruns</a> ::
+        <a href="fiveruns.dash-module.html">Package&nbsp;dash</a> ::
+        <a href="fiveruns.dash.scm-module.html">Package&nbsp;scm</a> ::
+        <a href="fiveruns.dash.scm.handlers-module.html">Package&nbsp;handlers</a> ::
+        Module&nbsp;_git
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="fiveruns.dash.scm.handlers._git-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="fiveruns.dash.scm.handlers._git-module.html">Module fiveruns.dash.scm.handlers._git</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">__future__</tt> <tt class="py-keyword">import</tt> <tt class="py-name">with_statement</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">os</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Method fiveruns.dash.metrics.MetricSetting.time()=fiveruns.dash.metrics.MetricSetting-class.html#time"><a title="fiveruns.dash.metrics.MetricSetting.time" class="py-name" href="#" onclick="return doclink('link-0', 'time', 'link-0');">time</a></tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-1" class="py-name" targets="Package fiveruns=fiveruns-module.html"><a title="fiveruns" class="py-name" href="#" onclick="return doclink('link-1', 'fiveruns', 'link-1');">fiveruns</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Package fiveruns.dash=fiveruns.dash-module.html"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-2', 'dash', 'link-2');">dash</a></tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Package fiveruns.dash.scm=fiveruns.dash.scm-module.html"><a title="fiveruns.dash.scm" class="py-name" href="#" onclick="return doclink('link-3', 'scm', 'link-3');">scm</a></tt> <tt class="py-keyword">import</tt> <tt id="link-4" class="py-name" targets="Module fiveruns.dash.scm.handler=fiveruns.dash.scm.handler-module.html"><a title="fiveruns.dash.scm.handler" class="py-name" href="#" onclick="return doclink('link-4', 'handler', 'link-4');">handler</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable fiveruns.dash.configuration.logger=fiveruns.dash.configuration-module.html#logger,Variable fiveruns.dash.exceptions.logger=fiveruns.dash.exceptions-module.html#logger,Variable fiveruns.dash.logger=fiveruns.dash-module.html#logger,Variable fiveruns.dash.metrics.logger=fiveruns.dash.metrics-module.html#logger,Variable fiveruns.dash.protocol.logger=fiveruns.dash.protocol-module.html#logger,Variable fiveruns.dash.recipes.logger=fiveruns.dash.recipes-module.html#logger,Variable fiveruns.dash.scm.handler.logger=fiveruns.dash.scm.handler-module.html#logger,Variable fiveruns.dash.scm.handlers._git.logger=fiveruns.dash.scm.handlers._git-module.html#logger,Variable fiveruns.dash.scm.handlers._svn.logger=fiveruns.dash.scm.handlers._svn-module.html#logger,Variable fiveruns.dash.session.logger=fiveruns.dash.session-module.html#logger"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-5', 'logger', 'link-5');">logger</a></tt> <tt class="py-op">=</tt> <tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">getLogger</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.scm.handlers.git'</tt><tt class="py-op">)</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"> </tt>
+<a name="Handler"></a><div id="Handler-def"><a name="L11"></a><tt class="py-lineno">11</tt> <a class="py-toggle" href="#" id="Handler-toggle" onclick="return toggle('Handler');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="fiveruns.dash.scm.handlers._git.Handler-class.html">Handler</a><tt class="py-op">(</tt><tt class="py-base-class">handler</tt><tt class="py-op">.</tt><tt class="py-base-class">Handler</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Handler-expanded"><a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="Handler.collect"></a><div id="Handler.collect-def"><a name="L13"></a><tt class="py-lineno">13</tt> <a class="py-toggle" href="#" id="Handler.collect-toggle" onclick="return toggle('Handler.collect');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handlers._git.Handler-class.html#collect">collect</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler.collect-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler.collect-expanded"><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt class="py-name">git</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method fiveruns.dash.scm.handlers._git.Handler._import()=fiveruns.dash.scm.handlers._git.Handler-class.html#_import"><a title="fiveruns.dash.scm.handlers._git.Handler._import" class="py-name" href="#" onclick="return doclink('link-6', '_import', 'link-6');">_import</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">git</tt><tt class="py-op">:</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-name">repo</tt> <tt class="py-op">=</tt> <tt class="py-name">git</tt><tt class="py-op">.</tt><tt class="py-name">Repo</tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">match</tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">        <tt class="py-comment"># check to see there are any branch heads at all</tt> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt class="py-name">heads</tt><tt class="py-op">:</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">            <tt class="py-name">head</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">            <tt class="py-name">head</tt> <tt class="py-op">=</tt> <tt class="py-name">repo</tt><tt class="py-op">.</tt><tt class="py-name">commits</tt><tt class="py-op">(</tt><tt class="py-string">'HEAD'</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-comment"># either there were no repo heads, or</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-comment"># the commit list is empty</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">if</tt> <tt class="py-keyword">not</tt> <tt class="py-name">head</tt><tt class="py-op">:</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">            <tt id="link-7" class="py-name"><a title="fiveruns.dash.configuration.logger
+fiveruns.dash.exceptions.logger
+fiveruns.dash.logger
+fiveruns.dash.metrics.logger
+fiveruns.dash.protocol.logger
+fiveruns.dash.recipes.logger
+fiveruns.dash.scm.handler.logger
+fiveruns.dash.scm.handlers._git.logger
+fiveruns.dash.scm.handlers._svn.logger
+fiveruns.dash.session.logger" class="py-name" href="#" onclick="return doclink('link-7', 'logger', 'link-5');">logger</a></tt><tt class="py-op">.</tt><tt class="py-name">warn</tt><tt class="py-op">(</tt><tt class="py-string">"Could not retrieve Git HEAD info"</tt><tt class="py-op">)</tt> </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">        <tt class="py-name">tip</tt> <tt class="py-op">=</tt> <tt class="py-name">head</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">.</tt><tt class="py-name">update</tt><tt class="py-op">(</tt><tt class="py-op">{</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-string">'scm_type'</tt><tt class="py-op">:</tt> <tt class="py-string">'git'</tt><tt class="py-op">,</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">            <tt class="py-string">"scm_revision"</tt><tt class="py-op">:</tt> <tt class="py-name">tip</tt><tt class="py-op">.</tt><tt class="py-name">id</tt><tt class="py-op">,</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-string">"scm_time"</tt><tt class="py-op">:</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">int</tt><tt class="py-op">(</tt><tt id="link-8" class="py-name"><a title="fiveruns.dash.metrics.MetricSetting.time" class="py-name" href="#" onclick="return doclink('link-8', 'time', 'link-0');">time</a></tt><tt class="py-op">.</tt><tt class="py-name">mktime</tt><tt class="py-op">(</tt><tt class="py-name">tip</tt><tt class="py-op">.</tt><tt class="py-name">authored_date</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">        <tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt class="py-name">scm_url</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name" targets="Method fiveruns.dash.scm.handlers._git.Handler._find_origin()=fiveruns.dash.scm.handlers._git.Handler-class.html#_find_origin"><a title="fiveruns.dash.scm.handlers._git.Handler._find_origin" class="py-name" href="#" onclick="return doclink('link-9', '_find_origin', 'link-9');">_find_origin</a></tt><tt class="py-op">(</tt><tt class="py-name">repo</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">scm_url</tt><tt class="py-op">:</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-string">'scm_url'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">scm_url</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">        <tt class="py-comment"># TODO: Collect info and add to ``self.data``</tt> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt class="py-comment"></tt>        <tt class="py-keyword">return</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"> </tt>
+<a name="Handler._find_origin"></a><div id="Handler._find_origin-def"><a name="L43"></a><tt class="py-lineno">43</tt> <a class="py-toggle" href="#" id="Handler._find_origin-toggle" onclick="return toggle('Handler._find_origin');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handlers._git.Handler-class.html#_find_origin">_find_origin</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">repo</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler._find_origin-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler._find_origin-expanded"><a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-name">found_origin</tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">        <tt class="py-keyword">with</tt> <tt class="py-name">open</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method fiveruns.dash.protocol.DataPayload.path()=fiveruns.dash.protocol.DataPayload-class.html#path,Method fiveruns.dash.protocol.ExceptionsPayload.path()=fiveruns.dash.protocol.ExceptionsPayload-class.html#path,Method fiveruns.dash.protocol.InfoPayload.path()=fiveruns.dash.protocol.InfoPayload-class.html#path,Method fiveruns.dash.protocol.PingPayload.path()=fiveruns.dash.protocol.PingPayload-class.html#path,Method fiveruns.dash.protocol.TracePayload.path()=fiveruns.dash.protocol.TracePayload-class.html#path"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-10', 'path', 'link-10');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">repo</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-11', 'path', 'link-10');">path</a></tt><tt class="py-op">,</tt> <tt class="py-string">'config'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-string">'r'</tt><tt class="py-op">)</tt> <tt class="py-keyword">as</tt> <tt class="py-name">f</tt><tt class="py-op">:</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">            <tt class="py-keyword">for</tt> <tt class="py-name">line</tt> <tt class="py-keyword">in</tt> <tt class="py-name">f</tt><tt class="py-op">.</tt><tt class="py-name">readlines</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">                <tt class="py-keyword">if</tt> <tt class="py-name">found_origin</tt><tt class="py-op">:</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">                    <tt class="py-name">stripped</tt> <tt class="py-op">=</tt> <tt class="py-name">line</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">                    <tt class="py-keyword">if</tt> <tt class="py-name">stripped</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">"url ="</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">                        <tt class="py-keyword">return</tt> <tt class="py-name">stripped</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-string">'='</tt><tt class="py-op">,</tt> <tt class="py-number">1</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">1</tt><tt class="py-op">]</tt><tt class="py-op">.</tt><tt class="py-name">strip</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">                <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">                    <tt class="py-keyword">if</tt> <tt class="py-name">line</tt><tt class="py-op">.</tt><tt class="py-name">startswith</tt><tt class="py-op">(</tt><tt class="py-string">'[remote "origin"]'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">                        <tt class="py-name">found_origin</tt> <tt class="py-op">=</tt> <tt class="py-name">True</tt> </tt>
+</div><a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">         </tt>
+<a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line"> </tt>
+<a name="Handler._import"></a><div id="Handler._import-def"><a name="L56"></a><tt class="py-lineno">56</tt> <a class="py-toggle" href="#" id="Handler._import-toggle" onclick="return toggle('Handler._import');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handlers._git.Handler-class.html#_import">_import</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Handler._import-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Handler._import-expanded"><a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">        <tt class="py-docstring">"""Attempt to import GitPython</tt> </tt>
+<a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">            <tt class="py-keyword">import</tt> <tt class="py-name">git_python</tt> </tt>
+<a name="L61"></a><tt class="py-lineno">61</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">git_python</tt> </tt>
+<a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">ImportError</tt><tt class="py-op">:</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">                <tt class="py-keyword">import</tt> <tt class="py-name">git</tt> </tt>
+<a name="L65"></a><tt class="py-lineno">65</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">git</tt> </tt>
+<a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">ImportError</tt><tt class="py-op">:</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method fiveruns.dash.scm.handler.Handler.missing()=fiveruns.dash.scm.handler.Handler-class.html#missing"><a title="fiveruns.dash.scm.handler.Handler.missing" class="py-name" href="#" onclick="return doclink('link-12', 'missing', 'link-12');">missing</a></tt><tt class="py-op">(</tt><tt class="py-string">'git_python'</tt><tt class="py-op">)</tt> </tt>
+<a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">                <tt class="py-keyword">return</tt> <tt class="py-name">False</tt> </tt>
+</div></div><a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line"> </tt>
+<a name="matches"></a><div id="matches-def"><a name="L70"></a><tt class="py-lineno">70</tt> <a class="py-toggle" href="#" id="matches-toggle" onclick="return toggle('matches');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.dash.scm.handlers._git-module.html#matches">matches</a><tt class="py-op">(</tt><tt class="py-param">directory</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="matches-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="matches-expanded"><a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">    <tt class="py-name">matcher</tt> <tt class="py-op">=</tt> <tt class="py-keyword">lambda</tt> <tt class="py-name">dir</tt><tt class="py-op">,</tt> <tt class="py-name">fn</tt><tt class="py-op">:</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-13', 'path', 'link-10');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">isdir</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-14', 'path', 'link-10');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">dir</tt><tt class="py-op">,</tt> <tt class="py-string">'.git'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line">    <tt class="py-name">found</tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="fiveruns.dash.scm.handler" class="py-name" href="#" onclick="return doclink('link-15', 'handler', 'link-4');">handler</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Function fiveruns.dash.scm.handler.ascend()=fiveruns.dash.scm.handler-module.html#ascend"><a title="fiveruns.dash.scm.handler.ascend" class="py-name" href="#" onclick="return doclink('link-16', 'ascend', 'link-16');">ascend</a></tt><tt class="py-op">(</tt><tt class="py-name">matcher</tt><tt class="py-op">,</tt> <tt class="py-name">directory</tt><tt class="py-op">,</tt> <tt class="py-string">''</tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">found</tt><tt class="py-op">:</tt> </tt>
+<a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="fiveruns.dash.protocol.DataPayload.path
+fiveruns.dash.protocol.ExceptionsPayload.path
+fiveruns.dash.protocol.InfoPayload.path
+fiveruns.dash.protocol.PingPayload.path
+fiveruns.dash.protocol.TracePayload.path" class="py-name" href="#" onclick="return doclink('link-17', 'path', 'link-10');">path</a></tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">found</tt><tt class="py-op">,</tt> <tt class="py-string">'.git'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun May 10 21:06:54 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
