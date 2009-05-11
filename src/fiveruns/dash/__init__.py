@@ -7,6 +7,9 @@ from recipes import Recipe
 from session import Reporter
 
 def start(config):
+    """
+    Starts reporting for given configuration
+    """
     config.instrument()
     reporter = Reporter(config)
     config.reporter = reporter
