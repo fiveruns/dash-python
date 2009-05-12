@@ -1,6 +1,6 @@
 #require File.dirname(__FILE__) << "/helper"
 from fiveruns import dash
-from mock import Mock, patch
+from mock import Mock, patch, patch_object
 import unittest
 import helper
 
