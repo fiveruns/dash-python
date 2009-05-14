@@ -4,7 +4,7 @@ import sys
 import urllib2
 from fiveruns import dash
 
-TERM = 'iphone'
+TERM = 'twitter'
 
 class TwitterGetter(object):
     def load(self):
@@ -42,15 +42,17 @@ class TwitterWordTrack(object):
     def search_for_term(self):
         for message in self.twitter.load():
             if self.term in [word.lower() for word in message['text'].split()]:
-                print self.term
                 self.incr_hits()
+                print message['text']
             else:
                 self.incr_misses()
 
     def run(self):
         while 1:
             now = datetime.now()
-            if (now - self.last_load) > timedelta(seconds=5):
+            #twitter caches the public timeline for 60 second. No need to check more often
+            if (now - self.last_load) > timedelta(seconds=60):
+                print "Starting new search at %s" % str(now)
                 self.last_load = now
                 self.search_for_term()
             

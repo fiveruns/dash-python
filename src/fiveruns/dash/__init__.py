@@ -43,7 +43,11 @@ def recipe(name, url):
     DuplicateRecipe: `foo' defined for `http://example.com'
     """
     return Recipe(name, url)
-    
+
+def register_default_recipe():
+    from fiveruns.recipes import python
+    pass
+
 class NullLoggingHandler(logging.Handler):
     def emit(self, record):
         pass

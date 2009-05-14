@@ -5,12 +5,11 @@ import random
 import sys
 import time
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+#sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import fiveruns.dash
 
 logging.basicConfig(level=logging.DEBUG)
-
 class Foo(object):
     
     def __init__(self, name):
@@ -46,15 +45,8 @@ config.add_recipe('app')
 
 config.add_exceptions_from(Foo.raise_error)
 
-# Beginnings of the 'python' recipe; for now we just add a metric or two
-# directly to the config vs creating a real recipe object (TODO)
-
-def refcount():
-    ''' Get number of system refcounts total. '''
-    return len(gc.get_objects())
-
-python = fiveruns.dash.recipe('python', 'http://dash.fiveruns.com')
-python.absolute("gc_objects", "Number of GC tracked objects", call=refcount)
+#add default python recipe to our configuration
+fiveruns.dash.register_default_recipe()
 config.add_recipe('python', 'http://dash.fiveruns.com')
 
 dash = fiveruns.dash.start(config)
