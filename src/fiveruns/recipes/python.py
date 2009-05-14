@@ -28,17 +28,17 @@ def _pmem():
     pipe.close()
     return pmem
 
-#TODO: Pretty sure the calc below will not work. Fix it
-#def _cpu():
-#    if not '_cpu_before' in globals():
-#        global _cpu_before
-#        _cpu_before = os.times()[0]
-#
-#    cpu_after = os.times()[0]
-#    this_minute = cpu_after - _cpu_before
-#    _cpu_before = cpu_after
-#
-#    return (this_minute / 60.0) * 100.00
+cpu_before = None
+def _cpu():
+    global cpu_before
+    if not cpu_before:
+        cpu_before = os.times()[0]
+
+    cpu_after = os.times()[0]
+    this_minute = cpu_after - cpu_before
+    cpu_before = cpu_after
+
+    return (this_minute / 60.0) * 100.00
 
 def _refcount():
     ''' Get number of system refcounts total. '''
