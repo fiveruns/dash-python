@@ -10,6 +10,9 @@ import time
 import fiveruns.dash
 
 logging.basicConfig(level=logging.DEBUG)
+
+recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
+
 class Foo(object):
     
     def __init__(self, name):
@@ -23,10 +26,12 @@ class Foo(object):
             except: pass
             self.sleep()
             self.incr()
-            
+    
+    @recipe.time("sleeps", "Time Spent Resting")
     def sleep(self):
         time.sleep(random.random() * 5)
-            
+    
+    @recipe.counter("tallies", "Number of Tallies")
     def incr(self):
         self.tally += 1
 
@@ -36,14 +41,10 @@ class Foo(object):
 if len(sys.argv) < 2:
     sys.exit("No app token given")
 
-recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
-recipe.counter("tallies", "Number of Tallies", wrap=Foo.incr)
-recipe.time("sleeps", "Time Spent Resting", wrap=Foo.sleep)
-
 config = fiveruns.dash.configure(app_token=sys.argv[1])
 config.add_recipe('app')
 
-config.add_exceptions_from(Foo.raise_error)
+#config.add_exceptions_from(Foo.raise_error)
 
 #add default python recipe to our configuration
 fiveruns.dash.register_default_recipe()

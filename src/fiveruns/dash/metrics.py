@@ -4,8 +4,6 @@ import time
 import logging
 import copy
 
-import aspects
-
 logger = logging.getLogger('fiveruns.dash.metrics')
 
 class MetricError(StandardError):
@@ -106,26 +104,45 @@ class Metric(object):
         result['data_type'] = self._data_type()
         return result
 
-    def _instrument(self):
-        pass
+#    def _instrument(self):
+#        pass
           
-    def _record(self, func):
-        """
-        Call custom function and merge its result into containers
-        """
-        receiver = func
-        args = []
-        if isinstance(receiver, tuple):
-            receiver = func[0]
-            args = func[1:]
-        result = receiver(*args)
-        with self.lock:
-            if isinstance(result, dict):
-                self.containers.update(result)
-            else:
-                # TODO: Support context_finder & pre-defined contexts
-                container = self._container_for_context(None)
-                container["value"] = result
+#    def _record(self, func):
+#        """
+#        Call custom function and merge its result into containers
+#        """
+#        receiver = func
+#        args = []
+#        if isinstance(receiver, tuple):
+#            receiver = func[0]
+#            args = func[1:]
+#        result = receiver(*args)
+#        with self.lock:
+#            if isinstance(result, dict):
+#                self.containers.update(result)
+#            else:
+#                # TODO: Support context_finder & pre-defined contexts
+#                container = self._container_for_context(None)
+#                container["value"] = result
+
+    def _wrapper(self, func):
+        #TODO: Figure out how to allow func to take *args and **options
+        def decorated_func():
+            self.lock.acquire()
+            try:
+                result = func()
+                if isinstance(result, dict):
+                    self.containers.update(result)
+                else:
+                    container = self._container_for_context(None)
+                    container['value'] = result
+            finally:
+                self.lock.release()
+            return result
+        self._record = decorated_func
+        #we don't really want to decorate func. Just creating a function to use with self._record
+        return func
+            
       
     def _snapshot(self):
         """
@@ -139,34 +156,26 @@ class Metric(object):
     
 class CounterMetric(Metric):
 
-    def values(self):
-        if self.virtual:
-            return True
-        if 'call' in self.options:
-            self._record(self.options['call'])
-        return self._snapshot()
-
     def _validate(self):
-        if 'wrap' not in self.options and 'call' not in self.options:
-            raise MetricError("Required `wrap' or `sources' option")
+        pass
+#        if 'wrap' not in self.options and 'call' not in self.options:
+#            raise MetricError("Required `wrap' or `sources' option")
 
-    def _instrument(self):
-        self._wrap(self.options.get('wrap', []))
+#    def _instrument(self):
+#        self._wrap(self.options.get('wrap', []))
 
-    def _wrap(self, target):
-        if callable(target):
-            logger.debug("%s wrapping %s" % (self, target))
-            aspects.with_wrap(self._wrapper, target)
-        else:
-            for item in target:
-                self._wrap(item)
-
-    def _wrapper(self, obj, *args, **kwargs):
-        with self.lock:
-            context = self._current_context(obj, *args, **kwargs)
-            container = self._container_for_context(context)
-            container["value"] += 1
-            yield aspects.proceed
+    def _wrapper(self, func):
+        def decorated_func(*args, **options):
+            self.lock.acquire()
+            try:
+                context = self._current_context(func, *args, **options)
+                container = self._container_for_context(context)
+                container["value"] += 1
+                ret_val = func(*args, **options)
+            finally:
+                self.lock.release()
+            return ret_val
+        return decorated_func
 
     def _data_type(self):
         return 'counter'
@@ -180,29 +189,27 @@ class TimeMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if 'wrap' not in self.options:
-            raise MetricError("Required `wrap'")
+        #if 'wrap' not in self.options:
+        #    raise MetricError("Required `wrap'")
 
-    def _instrument(self):
-        self._wrap(self.options.get('wrap', []))
+#    def _instrument(self):
+#        self._wrap(self.options.get('wrap', []))
 
-    def _wrap(self, target):
-        if callable(target):
-            logger.debug("%s wrapping %s" % (self, target))
-            aspects.with_wrap(self._wrapper, target)
-        else:
-            for item in target:
-                self._wrap(item)
-
-    def _wrapper(self, obj, *args, **kwargs):
-        with self.lock:
-            context = self._current_context(obj, *args, **kwargs)
-            container = self._container_for_context(context)
-            start = time.time()
-            yield aspects.proceed
-            value = time.time() - start
-            container["value"] += value
-            container["invocations"] += 1
+    def _wrapper(self, func):
+        def decorated_func(*args, **options):
+            self.lock.acquire()
+            try:
+                context = self._current_context(func, *args, **options)
+                container = self._container_for_context(context)
+                start = time.time()
+                ret_val = func(*args, **options)
+                value = time.time() - start
+                container["value"] += value
+                container["invocations"] += 1
+            finally:
+                self.lock.release()
+            return ret_val
+        return decorated_func
 
     def _data_type(self):
         return 'time'
@@ -212,11 +219,9 @@ class AbsoluteMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if 'call' not in self.options:
-            raise MetricError("Required `call'")
 
     def values(self):
-        self._record(self.options['call'])
+        self._record()
         return self._snapshot()
 
     def _data_type(self):
@@ -227,11 +232,9 @@ class PercentageMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        if 'call' not in self.options:
-            raise MetricError("Required `call'")
 
     def values(self):
-        self._record(self.options['call'])
+        self._record()
         return self._snapshot()
 
     def _data_type(self):
@@ -244,19 +247,19 @@ class MetricSetting(object):
 
     def time(self, name, *args, **options):
         "Add a time metric"
-        self._add_metric(TimeMetric, name, *args, **options)
+        return self._add_metric(TimeMetric, name, *args, **options)
 
     def counter(self, name, *args, **options):
         "Add a counter metric"
-        self._add_metric(CounterMetric, name, *args, **options)
+        return self._add_metric(CounterMetric, name, *args, **options)
 
     def absolute(self, name, *args, **options):
         "Add an absolute metric"
-        self._add_metric(AbsoluteMetric, name, *args, **options)
+        return self._add_metric(AbsoluteMetric, name, *args, **options)
 
     def percentage(self, name, *args, **options):
         "Add a percentage metric"
-        self._add_metric(PercentageMetric, name, *args, **options)
+        return self._add_metric(PercentageMetric, name, *args, **options)
 
     def add_recipe(self, name, url = None):
         """
@@ -275,7 +278,8 @@ class MetricSetting(object):
 
     def _add_metric(self, metric_class, name, *args, **options):
         "Add a metric"
-        metric =  metric_class(name, *args, **options)
+        metric = metric_class(name, *args, **options)
         self.metrics[(metric.name, metric.recipe_name, metric.recipe_url)] = metric
+        return metric._wrapper
 
 import recipes

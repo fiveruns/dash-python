@@ -21,7 +21,7 @@ class Recipe(metrics.MetricSetting):
         "Add a metric"
         options['recipe_name'] = self.name
         options['recipe_url'] = self.url
-        super(Recipe, self)._add_metric(*args, **options)
+        return super(Recipe, self)._add_metric(*args, **options)
 
     def _register(self):
         "Register this recipe"
