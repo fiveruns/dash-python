@@ -4,15 +4,16 @@ import os
 import random
 import sys
 import time
-
-#sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
 import fiveruns.dash
 
 logging.basicConfig(level=logging.DEBUG)
 
-recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
+if len(sys.argv) < 2:
+    sys.exit("No app token given")
+
 config = fiveruns.dash.configure(app_token=sys.argv[1])
+recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
+
 
 class Foo(object):
     
@@ -24,7 +25,8 @@ class Foo(object):
         while True:
             try:
                 self.raise_error()
-            except: pass
+            except:
+                pass
             self.sleep()
             self.incr()
     
@@ -40,11 +42,8 @@ class Foo(object):
     def raise_error(self):
         raise Exception("New Exception")
 
-if len(sys.argv) < 2:
-    sys.exit("No app token given")
 
 config.add_recipe('app')
-#config.add_exceptions_from(Foo.raise_error)
 
 #add default python recipe to our configuration
 fiveruns.dash.register_default_recipe()
