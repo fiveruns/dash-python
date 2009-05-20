@@ -10,8 +10,6 @@ def start(config):
     """
     Starts reporting for given configuration
     """
-    #TODO: Verify that instrumentation is not needed as we switch to decorators and away from aspects
-    #config.instrument()
     reporter = Reporter(config)
     config.reporter = reporter
     reporter.start()

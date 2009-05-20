@@ -1,6 +1,7 @@
 import logging
 import sys
 import traceback
+from StringIO import StringIO
 
 logger = logging.getLogger('fiveruns.dash.exceptions')
 
@@ -21,11 +22,15 @@ class Recorder:
         logger.debug("Recorded exception: %s" % self.data[key])
 
     def _extract(self, info):
-        return {
+        backtrace = StringIO()
+        traceback.print_exc(file=backtrace)
+        extraction = {
             "name": type(info).__name__,
             "message": "\n".join(info.args),
-            "backtrace": "Tracebacks are not currently supported for Python"
+            "backtrace":  backtrace.getvalue()
         }
+        backtrace.close()
+        return extraction
 
     def _flatten(self, sample):
         return dict((str(k), str(v)) for k, v in sample.iteritems())

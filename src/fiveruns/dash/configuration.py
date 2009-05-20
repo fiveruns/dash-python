@@ -3,8 +3,6 @@ import os
 import sys
 import traceback
 
-import aspects
-
 import metrics
 import recipes
 
@@ -27,24 +25,26 @@ class Configuration(metrics.MetricSetting):
         self.reporter = None
         self.__dict__.update(**options)
 
-    def add_exceptions_from(self, target):
-        logger.debug("Capturing exceptions from %s" % target)
-        aspects.with_wrap(self._capture_exceptions, target) 
+    def add_exceptions_from(self):
+        def decorator(func):
+            logger.debug("Capturing exceptions from %s" % func)
+            def decorated_func(*args, **options):
+                try:
+                    ret_val = func(*args, **options)
+                except Exception, e:
+                    try:
+                        self.reporter.add_exception(e)
+                    except:
+                        logger.debug("Could not add exception due to internal error: %s\n%s" % (sys.exc_info()[1], "\n".join(traceback.format_tb(sys.exc_info()[2]))))
+                    finally:
+                        raise Exception, str(e)
+                return ret_val
+            return decorated_func
+        return decorator
 
     def instrument(self):
         for metric in self.metrics.values():
             metric._instrument()
-
-    def _capture_exceptions(self, obj):
-        try:
-            yield aspects.proceed
-        except Exception, e:
-            if self.reporter:
-                try:
-                    self.reporter.add_exception(e)                
-                except:
-                    logger.debug("Could not add exception due to internal error: %s\n%s" % (sys.exc_info()[1], "\n".join(traceback.format_tb(sys.exc_info()[2]))))
-            raise
 
     def _replay_recipe(self, recipe):
         logger.debug("Adding %d metric(s) from recipe `%s' for %s to configuration" % (

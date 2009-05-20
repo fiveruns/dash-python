@@ -104,30 +104,9 @@ class Metric(object):
         result['data_type'] = self._data_type()
         return result
 
-#    def _instrument(self):
-#        pass
-          
-#    def _record(self, func):
-#        """
-#        Call custom function and merge its result into containers
-#        """
-#        receiver = func
-#        args = []
-#        if isinstance(receiver, tuple):
-#            receiver = func[0]
-#            args = func[1:]
-#        result = receiver(*args)
-#        with self.lock:
-#            if isinstance(result, dict):
-#                self.containers.update(result)
-#            else:
-#                # TODO: Support context_finder & pre-defined contexts
-#                container = self._container_for_context(None)
-#                container["value"] = result
-
     def _wrapper(self, func):
         #TODO: Figure out how to allow func to take *args and **options
-        def decorated_func():
+        def recorder():
             self.lock.acquire()
             try:
                 result = func()
@@ -139,8 +118,8 @@ class Metric(object):
             finally:
                 self.lock.release()
             return result
-        self._record = decorated_func
-        #we don't really want to decorate func. Just creating a function to use with self._record
+        self._record = recorder
+        #we don't really want to decorate func. We just want dynamically create self._record
         return func
             
       
@@ -158,11 +137,6 @@ class CounterMetric(Metric):
 
     def _validate(self):
         pass
-#        if 'wrap' not in self.options and 'call' not in self.options:
-#            raise MetricError("Required `wrap' or `sources' option")
-
-#    def _instrument(self):
-#        self._wrap(self.options.get('wrap', []))
 
     def _wrapper(self, func):
         def decorated_func(*args, **options):
@@ -189,11 +163,6 @@ class TimeMetric(Metric):
     def _validate(self):
         if self.virtual:
             return True
-        #if 'wrap' not in self.options:
-        #    raise MetricError("Required `wrap'")
-
-#    def _instrument(self):
-#        self._wrap(self.options.get('wrap', []))
 
     def _wrapper(self, func):
         def decorated_func(*args, **options):

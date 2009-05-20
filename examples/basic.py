@@ -12,6 +12,7 @@ import fiveruns.dash
 logging.basicConfig(level=logging.DEBUG)
 
 recipe = fiveruns.dash.recipe('app', 'http://dash.fiveruns.com')
+config = fiveruns.dash.configure(app_token=sys.argv[1])
 
 class Foo(object):
     
@@ -35,15 +36,14 @@ class Foo(object):
     def incr(self):
         self.tally += 1
 
+    @config.add_exceptions_from()
     def raise_error(self):
         raise Exception("New Exception")
 
 if len(sys.argv) < 2:
     sys.exit("No app token given")
 
-config = fiveruns.dash.configure(app_token=sys.argv[1])
 config.add_recipe('app')
-
 #config.add_exceptions_from(Foo.raise_error)
 
 #add default python recipe to our configuration
