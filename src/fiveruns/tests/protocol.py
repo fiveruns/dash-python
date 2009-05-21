@@ -17,17 +17,18 @@ class InfoPayloadTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch('fiveruns.dash.protocol.send', mock_send(201, 'Created', 'InfoPayload: Successful body'))
     def testPayloadSendSuccessful(self):
         payload = dash.protocol.InfoPayload(self.config)
         self.assertEqual(True, payload.send())
+    testPayloadSendSuccessful = patch('fiveruns.dash.protocol.send', mock_send(201, 'Created', 'InfoPayload: Successful body'))(testPayloadSendSuccessful)
+    
 
-    @patch('fiveruns.dash.protocol.send', mock_send(404, 'Not Found', 'InfoPayload: Failed body'))
     def testPayloadSendFailed(self):
         payload = dash.protocol.InfoPayload(self.config)
         self.assertEqual(False, payload.send())
+    testPayloadSendFailed = patch('fiveruns.dash.protocol.send', mock_send(404, 'Not Found', 'InfoPayload: This is the body of a failed Payload Send Request'))(testPayloadSendFailed)
     
-    @patch('fiveruns.dash.protocol.send', mock_send(500, 'Server Error', 'InfoPayload: Unknown body'))
     def testPayloadSendUnknownError(self):
         payload = dash.protocol.InfoPayload(self.config)
         self.assertEqual(False, payload.send())
+    testPayloadSendUnknownError = patch('fiveruns.dash.protocol.send', mock_send(500, 'Server Error', 'InfoPayload: This is the body of an unknown error with a Send Request'))(testPayloadSendUnknownError)

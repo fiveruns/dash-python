@@ -33,4 +33,4 @@ class Recorder:
         return extraction
 
     def _flatten(self, sample):
-        return dict((str(k), str(v)) for k, v in sample.iteritems())
+        return dict([(str(k), str(v)) for k, v in sample.iteritems()])

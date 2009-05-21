@@ -128,10 +128,13 @@ class Metric(object):
         Retrieve existing data for this metric, and reset it
         # TODO Make threadsafe
         """
-        with self.lock:
+        self.lock.acquire()
+        try:
             values = self.containers.values()
             self.containers = {}
             return values
+        finally:
+            self.lock.release()
     
 class CounterMetric(Metric):
 

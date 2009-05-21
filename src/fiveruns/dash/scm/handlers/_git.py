@@ -42,7 +42,8 @@ class Handler(handler.Handler):
 
     def _find_origin(self, repo):
         found_origin = False
-        with open(os.path.join(repo.path, 'config'), 'r') as f:
+        f = open(os.path.join(repo.path, 'config'), 'r')
+        try:
             for line in f.readlines():
                 if found_origin:
                     stripped = line.strip()
@@ -51,6 +52,8 @@ class Handler(handler.Handler):
                 else:
                     if line.startswith('[remote "origin"]'):
                         found_origin = True
+        finally:
+            f.close()
         
 
     def _import(self):

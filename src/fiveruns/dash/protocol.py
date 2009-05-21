@@ -101,7 +101,15 @@ class InfoPayload(Payload):
         recipes = []
         for info in metric_infos:
             key = {"name": info["recipe_name"], "url": info["recipe_url"]}
-            if all(v is None for v in key.values()): continue
+
+            ### Python 2.3 HACK###
+            #The "all" keyword is not available in python 2.3. if not _any should do the same thing
+            #replace _any with the "any" keyword when python 2.3 is no longer supported
+            #if all(v is None for v in key.values()): continue #orginal line
+            _any = lambda z: bool(reduce(lambda x,y: x or y, z))
+            if not _any(key.values()): continue
+            ### END HACK ###
+
             if not key in recipes: recipes.append(key)
         data = {"metric_infos" : metric_infos, "recipes" : recipes}
         data.update(self.config.extra_payload_data.get('info', {}))
