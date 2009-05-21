@@ -9,7 +9,7 @@ import sys
 import time
 import fiveruns.dash
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig()
 
 if len(sys.argv) < 2:
     sys.exit("No app token given")
