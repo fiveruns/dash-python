@@ -1,4 +1,3 @@
-from __future__ import with_statement
 from threading import Thread, RLock
 import time, logging
 
