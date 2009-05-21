@@ -36,7 +36,6 @@ class Configuration(metrics.MetricSetting):
                         self.reporter.add_exception(e)
                     except:
                         logger.debug("Could not add exception due to internal error: %s\n%s" % (sys.exc_info()[1], "\n".join(traceback.format_tb(sys.exc_info()[2]))))
-                    finally:
                         raise Exception, str(e)
                 return ret_val
             return decorated_func
