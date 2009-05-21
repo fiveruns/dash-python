@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>fiveruns.tests.helper</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="fiveruns-module.html">Package&nbsp;fiveruns</a> ::
+        <a href="fiveruns.tests-module.html">Package&nbsp;tests</a> ::
+        Module&nbsp;helper
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="fiveruns.tests.helper-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="fiveruns.tests.helper-module.html">Module fiveruns.tests.helper</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">StringIO</tt> <tt class="py-keyword">import</tt> <tt class="py-name">StringIO</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable fiveruns.tests.helper.saved_stdout=fiveruns.tests.helper-module.html#saved_stdout"><a title="fiveruns.tests.helper.saved_stdout" class="py-name" href="#" onclick="return doclink('link-0', 'saved_stdout', 'link-0');">saved_stdout</a></tt> <tt class="py-op">=</tt> <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdout</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable fiveruns.tests.helper.saved_stdin=fiveruns.tests.helper-module.html#saved_stdin"><a title="fiveruns.tests.helper.saved_stdin" class="py-name" href="#" onclick="return doclink('link-1', 'saved_stdin', 'link-1');">saved_stdin</a></tt> <tt class="py-op">=</tt> <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdin</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="mock_stdout"></a><div id="mock_stdout-def"><a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="mock_stdout-toggle" onclick="return toggle('mock_stdout');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#mock_stdout">mock_stdout</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="mock_stdout-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="mock_stdout-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-name">new_stdout</tt> <tt class="py-op">=</tt> <tt class="py-name">StringIO</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdout</tt> <tt class="py-op">=</tt> <tt class="py-name">new_stdout</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">new_stdout</tt> </tt>
+</div><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="mock_stdin"></a><div id="mock_stdin-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="mock_stdin-toggle" onclick="return toggle('mock_stdin');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#mock_stdin">mock_stdin</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="mock_stdin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="mock_stdin-expanded"><a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-name">new_stdin</tt> <tt class="py-op">=</tt> <tt class="py-name">StringIO</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdin</tt> <tt class="py-op">=</tt> <tt class="py-name">new_stdin</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">new_stdin</tt> </tt>
+</div><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"> </tt>
+<a name="mock_streams"></a><div id="mock_streams-def"><a name="L17"></a><tt class="py-lineno">17</tt> <a class="py-toggle" href="#" id="mock_streams-toggle" onclick="return toggle('mock_streams');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#mock_streams">mock_streams</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="mock_streams-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="mock_streams-expanded"><a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-2" class="py-name" targets="Function fiveruns.tests.helper.mock_stdout()=fiveruns.tests.helper-module.html#mock_stdout"><a title="fiveruns.tests.helper.mock_stdout" class="py-name" href="#" onclick="return doclink('link-2', 'mock_stdout', 'link-2');">mock_stdout</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt id="link-3" class="py-name" targets="Function fiveruns.tests.helper.mock_stdin()=fiveruns.tests.helper-module.html#mock_stdin"><a title="fiveruns.tests.helper.mock_stdin" class="py-name" href="#" onclick="return doclink('link-3', 'mock_stdin', 'link-3');">mock_stdin</a></tt> </tt>
+</div><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="restore_stdout"></a><div id="restore_stdout-def"><a name="L20"></a><tt class="py-lineno">20</tt> <a class="py-toggle" href="#" id="restore_stdout-toggle" onclick="return toggle('restore_stdout');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#restore_stdout">restore_stdout</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="restore_stdout-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="restore_stdout-expanded"><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdout</tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name"><a title="fiveruns.tests.helper.saved_stdout" class="py-name" href="#" onclick="return doclink('link-4', 'saved_stdout', 'link-0');">saved_stdout</a></tt> </tt>
+</div><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">     </tt>
+<a name="restore_stdin"></a><div id="restore_stdin-def"><a name="L23"></a><tt class="py-lineno">23</tt> <a class="py-toggle" href="#" id="restore_stdin-toggle" onclick="return toggle('restore_stdin');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#restore_stdin">restore_stdin</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="restore_stdin-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="restore_stdin-expanded"><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">    <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdin</tt> <tt class="py-op">=</tt> <tt id="link-5" class="py-name"><a title="fiveruns.tests.helper.saved_stdin" class="py-name" href="#" onclick="return doclink('link-5', 'saved_stdin', 'link-1');">saved_stdin</a></tt> </tt>
+</div><a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line"> </tt>
+<a name="restore_streams"></a><div id="restore_streams-def"><a name="L26"></a><tt class="py-lineno">26</tt> <a class="py-toggle" href="#" id="restore_streams-toggle" onclick="return toggle('restore_streams');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.helper-module.html#restore_streams">restore_streams</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="restore_streams-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="restore_streams-expanded"><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">    <tt id="link-6" class="py-name" targets="Function fiveruns.tests.helper.restore_stdout()=fiveruns.tests.helper-module.html#restore_stdout"><a title="fiveruns.tests.helper.restore_stdout" class="py-name" href="#" onclick="return doclink('link-6', 'restore_stdout', 'link-6');">restore_stdout</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">    <tt id="link-7" class="py-name" targets="Function fiveruns.tests.helper.restore_stdin()=fiveruns.tests.helper-module.html#restore_stdin"><a title="fiveruns.tests.helper.restore_stdin" class="py-name" href="#" onclick="return doclink('link-7', 'restore_stdin', 'link-7');">restore_stdin</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed May 20 19:07:12 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

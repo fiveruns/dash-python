@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>fiveruns.tests.protocol</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="fiveruns-module.html">Package&nbsp;fiveruns</a> ::
+        <a href="fiveruns.tests-module.html">Package&nbsp;tests</a> ::
+        Module&nbsp;protocol
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="fiveruns.tests.protocol-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="fiveruns.tests.protocol-module.html">Module fiveruns.tests.protocol</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">#require File.dirname(__FILE__) &lt;&lt; "/helper"</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-comment"></tt><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Package fiveruns=fiveruns-module.html"><a title="fiveruns" class="py-name" href="#" onclick="return doclink('link-0', 'fiveruns', 'link-0');">fiveruns</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Package fiveruns.dash=fiveruns.dash-module.html"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-1', 'dash', 'link-1');">dash</a></tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">mock</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Mock</tt><tt class="py-op">,</tt> <tt class="py-name">patch</tt><tt class="py-op">,</tt> <tt class="py-name">patch_object</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">unittest</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-2" class="py-name" targets="Module fiveruns.tests.helper=fiveruns.tests.helper-module.html"><a title="fiveruns.tests.helper" class="py-name" href="#" onclick="return doclink('link-2', 'helper', 'link-2');">helper</a></tt> </tt>
+<a name="mock_send"></a><div id="mock_send-def"><a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt> <a class="py-toggle" href="#" id="mock_send-toggle" onclick="return toggle('mock_send');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol-module.html#mock_send">mock_send</a><tt class="py-op">(</tt><tt class="py-param">status</tt><tt class="py-op">,</tt> <tt class="py-param">reason</tt><tt class="py-op">,</tt> <tt class="py-param">body</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="mock_send-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="mock_send-expanded"><a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">    <tt class="py-name">mocked_send</tt> <tt class="py-op">=</tt> <tt class="py-name">Mock</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line">    <tt class="py-name">mocked_send</tt><tt class="py-op">.</tt><tt class="py-name">return_value</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">status</tt><tt class="py-op">,</tt> <tt class="py-name">reason</tt><tt class="py-op">,</tt> <tt class="py-name">body</tt><tt class="py-op">)</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">mocked_send</tt> </tt>
+</div><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"> </tt>
+<a name="InfoPayloadTest"></a><div id="InfoPayloadTest-def"><a name="L12"></a><tt class="py-lineno">12</tt> <a class="py-toggle" href="#" id="InfoPayloadTest-toggle" onclick="return toggle('InfoPayloadTest');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html">InfoPayloadTest</a><tt class="py-op">(</tt><tt class="py-base-class">unittest</tt><tt class="py-op">.</tt><tt class="py-base-class">TestCase</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="InfoPayloadTest-expanded"><a name="InfoPayloadTest.setUp"></a><div id="InfoPayloadTest.setUp-def"><a name="L13"></a><tt class="py-lineno">13</tt> <a class="py-toggle" href="#" id="InfoPayloadTest.setUp-toggle" onclick="return toggle('InfoPayloadTest.setUp');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html#setUp">setUp</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest.setUp-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="InfoPayloadTest.setUp-expanded"><a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">        <tt id="link-3" class="py-name"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-3', 'dash', 'link-1');">dash</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module fiveruns.dash.recipes=fiveruns.dash.recipes-module.html,Package fiveruns.recipes=fiveruns.recipes-module.html"><a title="fiveruns.dash.recipes
+fiveruns.recipes" class="py-name" href="#" onclick="return doclink('link-4', 'recipes', 'link-4');">recipes</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Variable fiveruns.dash.recipes.registry=fiveruns.dash.recipes-module.html#registry"><a title="fiveruns.dash.recipes.registry" class="py-name" href="#" onclick="return doclink('link-5', 'registry', 'link-5');">registry</a></tt><tt class="py-op">.</tt><tt class="py-name">clear</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">config</tt> <tt class="py-op">=</tt> <tt id="link-6" class="py-name"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-6', 'dash', 'link-1');">dash</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Function fiveruns.dash.configure()=fiveruns.dash-module.html#configure"><a title="fiveruns.dash.configure" class="py-name" href="#" onclick="return doclink('link-7', 'configure', 'link-7');">configure</a></tt><tt class="py-op">(</tt><tt class="py-name">app_token</tt><tt class="py-op">=</tt><tt class="py-string">'ABC123'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">     </tt>
+<a name="InfoPayloadTest.tearDown"></a><div id="InfoPayloadTest.tearDown-def"><a name="L17"></a><tt class="py-lineno">17</tt> <a class="py-toggle" href="#" id="InfoPayloadTest.tearDown-toggle" onclick="return toggle('InfoPayloadTest.tearDown');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html#tearDown">tearDown</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest.tearDown-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="InfoPayloadTest.tearDown-expanded"><a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">patch</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.protocol.send'</tt><tt class="py-op">,</tt> <tt id="link-8" class="py-name" targets="Function fiveruns.tests.protocol.mock_send()=fiveruns.tests.protocol-module.html#mock_send"><a title="fiveruns.tests.protocol.mock_send" class="py-name" href="#" onclick="return doclink('link-8', 'mock_send', 'link-8');">mock_send</a></tt><tt class="py-op">(</tt><tt class="py-number">201</tt><tt class="py-op">,</tt> <tt class="py-string">'Created'</tt><tt class="py-op">,</tt> <tt class="py-string">'InfoPayload: Successful body'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="InfoPayloadTest.testPayloadSendSuccessful"></a><div id="InfoPayloadTest.testPayloadSendSuccessful-def"><a name="L21"></a><tt class="py-lineno">21</tt> <a class="py-toggle" href="#" id="InfoPayloadTest.testPayloadSendSuccessful-toggle" onclick="return toggle('InfoPayloadTest.testPayloadSendSuccessful');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html#testPayloadSendSuccessful">testPayloadSendSuccessful</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest.testPayloadSendSuccessful-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="InfoPayloadTest.testPayloadSendSuccessful-expanded"><a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-name">payload</tt> <tt class="py-op">=</tt> <tt id="link-9" class="py-name"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-9', 'dash', 'link-1');">dash</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module fiveruns.dash.protocol=fiveruns.dash.protocol-module.html,Module fiveruns.tests.protocol=fiveruns.tests.protocol-module.html"><a title="fiveruns.dash.protocol
+fiveruns.tests.protocol" class="py-name" href="#" onclick="return doclink('link-10', 'protocol', 'link-10');">protocol</a></tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Class fiveruns.dash.protocol.InfoPayload=fiveruns.dash.protocol.InfoPayload-class.html"><a title="fiveruns.dash.protocol.InfoPayload" class="py-name" href="#" onclick="return doclink('link-11', 'InfoPayload', 'link-11');">InfoPayload</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">config</tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEqual</tt><tt class="py-op">(</tt><tt class="py-name">True</tt><tt class="py-op">,</tt> <tt class="py-name">payload</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method fiveruns.dash.protocol.Payload.send()=fiveruns.dash.protocol.Payload-class.html#send,Function fiveruns.dash.protocol.send()=fiveruns.dash.protocol-module.html#send"><a title="fiveruns.dash.protocol.Payload.send
+fiveruns.dash.protocol.send" class="py-name" href="#" onclick="return doclink('link-12', 'send', 'link-12');">send</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line"> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">patch</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.protocol.send'</tt><tt class="py-op">,</tt> <tt id="link-13" class="py-name"><a title="fiveruns.tests.protocol.mock_send" class="py-name" href="#" onclick="return doclink('link-13', 'mock_send', 'link-8');">mock_send</a></tt><tt class="py-op">(</tt><tt class="py-number">404</tt><tt class="py-op">,</tt> <tt class="py-string">'Not Found'</tt><tt class="py-op">,</tt> <tt class="py-string">'InfoPayload: Failed body'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="InfoPayloadTest.testPayloadSendFailed"></a><div id="InfoPayloadTest.testPayloadSendFailed-def"><a name="L26"></a><tt class="py-lineno">26</tt> <a class="py-toggle" href="#" id="InfoPayloadTest.testPayloadSendFailed-toggle" onclick="return toggle('InfoPayloadTest.testPayloadSendFailed');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html#testPayloadSendFailed">testPayloadSendFailed</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest.testPayloadSendFailed-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="InfoPayloadTest.testPayloadSendFailed-expanded"><a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-name">payload</tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-14', 'dash', 'link-1');">dash</a></tt><tt class="py-op">.</tt><tt id="link-15" class="py-name"><a title="fiveruns.dash.protocol
+fiveruns.tests.protocol" class="py-name" href="#" onclick="return doclink('link-15', 'protocol', 'link-10');">protocol</a></tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="fiveruns.dash.protocol.InfoPayload" class="py-name" href="#" onclick="return doclink('link-16', 'InfoPayload', 'link-11');">InfoPayload</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">config</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEqual</tt><tt class="py-op">(</tt><tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-name">payload</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name"><a title="fiveruns.dash.protocol.Payload.send
+fiveruns.dash.protocol.send" class="py-name" href="#" onclick="return doclink('link-17', 'send', 'link-12');">send</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">     </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">patch</tt><tt class="py-op">(</tt><tt class="py-string">'fiveruns.dash.protocol.send'</tt><tt class="py-op">,</tt> <tt id="link-18" class="py-name"><a title="fiveruns.tests.protocol.mock_send" class="py-name" href="#" onclick="return doclink('link-18', 'mock_send', 'link-8');">mock_send</a></tt><tt class="py-op">(</tt><tt class="py-number">500</tt><tt class="py-op">,</tt> <tt class="py-string">'Server Error'</tt><tt class="py-op">,</tt> <tt class="py-string">'InfoPayload: Unknown body'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="InfoPayloadTest.testPayloadSendUnknownError"></a><div id="InfoPayloadTest.testPayloadSendUnknownError-def"><a name="L31"></a><tt class="py-lineno">31</tt> <a class="py-toggle" href="#" id="InfoPayloadTest.testPayloadSendUnknownError-toggle" onclick="return toggle('InfoPayloadTest.testPayloadSendUnknownError');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="fiveruns.tests.protocol.InfoPayloadTest-class.html#testPayloadSendUnknownError">testPayloadSendUnknownError</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="InfoPayloadTest.testPayloadSendUnknownError-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="InfoPayloadTest.testPayloadSendUnknownError-expanded"><a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-name">payload</tt> <tt class="py-op">=</tt> <tt id="link-19" class="py-name"><a title="fiveruns.dash" class="py-name" href="#" onclick="return doclink('link-19', 'dash', 'link-1');">dash</a></tt><tt class="py-op">.</tt><tt id="link-20" class="py-name"><a title="fiveruns.dash.protocol
+fiveruns.tests.protocol" class="py-name" href="#" onclick="return doclink('link-20', 'protocol', 'link-10');">protocol</a></tt><tt class="py-op">.</tt><tt id="link-21" class="py-name"><a title="fiveruns.dash.protocol.InfoPayload" class="py-name" href="#" onclick="return doclink('link-21', 'InfoPayload', 'link-11');">InfoPayload</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">config</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEqual</tt><tt class="py-op">(</tt><tt class="py-name">False</tt><tt class="py-op">,</tt> <tt class="py-name">payload</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name"><a title="fiveruns.dash.protocol.Payload.send
+fiveruns.dash.protocol.send" class="py-name" href="#" onclick="return doclink('link-22', 'send', 'link-12');">send</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="fiveruns-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Wed May 20 19:07:11 2009
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
