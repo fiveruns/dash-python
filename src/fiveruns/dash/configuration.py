@@ -23,7 +23,7 @@ class Configuration(metrics.MetricSetting):
         self.process_id = None
         self.report_interval = 60
         self.reporter = None
-        self.__dict__.update(**options)
+        self.__dict__.update(options)
 
     def add_exceptions_from(self):
         def decorator(func):
