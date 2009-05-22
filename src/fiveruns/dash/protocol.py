@@ -185,8 +185,10 @@ class ExceptionsPayload(Payload):
   
 def send(urlparts, selector, fields, files):
     content_type, body = encode(fields, files)
-    connector = connections[urlparts.scheme]
-    connection = connector(urlparts.netloc)
+    URL_SCHEME_IDX = 0
+    URL_NETLOC_IDX = 1
+    connector = connections[urlparts[URL_SCHEME_IDX]]
+    connection = connector(urlparts[URL_NETLOC_IDX])
     headers = {'User-Agent': 'Python','Content-Type': content_type}
     try:
         connection.request('POST', selector, body, headers)
